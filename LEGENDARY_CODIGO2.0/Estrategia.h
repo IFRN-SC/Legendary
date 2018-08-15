@@ -5,6 +5,8 @@
 #include <Servo.h>
 #include "Toy.h"
 #include "Calibragem.h"
+#include "Sensores.h"
+#include "Motores.h"
 
 class Estrategia{
   public:
@@ -13,6 +15,8 @@ class Estrategia{
   private:
     Calibragem calibragem;
     Toy toy;
+    Sensores sensores;
+    Motores motores;
     
     void seguirLinha();
     void desviarObstaculo();

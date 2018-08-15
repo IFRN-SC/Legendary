@@ -6,16 +6,17 @@
 #include "Estrategia.h"
 #include "Calibragem.h"
 
+void imprimirEEPROM();
+
 Toy toy;
 MenuIniciar menuIniciar;
 Estrategia estrategia;
 Calibragem calibragem;
-calibracao_dados val;
 
 void setup() {
   Serial.begin(9600);
   robo.configurar(false);
-  robo.lerCalibracao(val);
+  
   toy.start();
   menuIniciar.menuBotoes();
 }

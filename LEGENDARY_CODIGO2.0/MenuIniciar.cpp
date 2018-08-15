@@ -4,7 +4,20 @@ MenuIniciar::MenuIniciar(){
   //  
 }
 
-void MenuIniciar::menuBotoes(){   
+void MenuIniciar::menuBotoes(){
+  robo.lerCalibracao(val);
+  
+  Serial.println("Dados na EEPROM: ");
+  Serial.println("  +esq    esq     dir     +dir");
+  Serial.print  ("  ");
+  Serial.print  (val.refletanciaMaisEsq);
+  Serial.print  ("      ");
+  Serial.print  (val.refletanciaEsq);
+  Serial.print  ("      ");
+  Serial.print  (val.refletanciaDir);
+  Serial.print  ("      ");
+  Serial.println(val.refletanciaMaisDir);
+     
   Serial.println("\n--------------------");
   Serial.println("Menu Botões Iniciado");
   Serial.println("--------------------\n");

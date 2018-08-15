@@ -14,8 +14,7 @@ class Calibragem{
     float cinzaDir;
     float cinzaEsq;
     float cinzaMaisEsq;
-
-    void getDadosCalibragem();
+    
     void iniciarCalibragem();
     
   private:

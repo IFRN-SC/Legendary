@@ -16,6 +16,7 @@ class MenuIniciar{
   private:
     void menuSerial();
     Toy toy;
+    calibracao_dados val;
 };
 
 #endif

@@ -65,7 +65,7 @@ void Calibragem::iniciarCalibragem(){
   Serial.println(cinzaMaisDir);
 
   guardarDadosEEPROM();
-  getDadosCalibragem();
+  robo.lerCalibracao(val);
   
   Serial.println("CALIBRAÇÃO FINALIZADA: Calibração terminada (Precione o Botão 3 para voltar ao Menu Botão)");
   while(!robo.botao3Pressionado()){} //Espera Resposta do Botão 3
@@ -127,21 +127,6 @@ void Calibragem::guardarDadosEEPROM(){
   Serial.println("\nDados Guardados na EEPROM");
 }
 
-void Calibragem::getDadosCalibragem(){
-  robo.lerCalibracao(val);
-  
-  cinzaMaisEsq = val.refletanciaMaisEsq;
-  cinzaEsq = val.refletanciaEsq;
-  cinzaDir = val.refletanciaDir;
-  cinzaMaisDir = val.refletanciaMaisDir;
-  
-  Serial.println(cinzaMaisEsq);
-  Serial.println(cinzaEsq);
-  Serial.println(cinzaDir);
-  Serial.println(cinzaMaisDir);
-  
-  Serial.println("\nDados Capturados da EEPROM");
-}
 
 
 
