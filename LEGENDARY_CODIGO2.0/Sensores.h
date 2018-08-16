@@ -7,6 +7,7 @@
 class Sensores{
   public:
     Sensores();
+    void start();
     boolean bbbb();
     boolean bbbp();
     boolean pbbb();

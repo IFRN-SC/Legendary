@@ -1,6 +1,12 @@
 #include "Sensores.h"
 
 Sensores::Sensores(){
+  //
+}
+
+//Branco Branco Branco Branco (Andar para Frente)
+
+void Sensores::start(){
   robo.lerCalibracao(val);
   
   cinzaMaisEsq = val.refletanciaMaisEsq;
@@ -9,11 +15,13 @@ Sensores::Sensores(){
   cinzaMaisDir = val.refletanciaMaisDir;
 }
 
-//Branco Branco Branco Branco (Andar para Frente)
-boolean Sensores::bbbb(){
+
+boolean Sensores::bbbb(){  
   boolean resposta;
   if((robo.lerSensorLinhaMaisEsq() >= cinzaMaisEsq) && (robo.lerSensorLinhaEsq() >= cinzaEsq) && (robo.lerSensorLinhaDir() >= cinzaDir) && (robo.lerSensorLinhaMaisDir() >= cinzaMaisDir)){
     resposta = true;
+  }else{
+    resposta = false;
   }
   return resposta;
 }
@@ -23,6 +31,8 @@ boolean Sensores::bpbb(){
   boolean resposta;
   if((robo.lerSensorLinhaMaisEsq() > cinzaMaisEsq) && (robo.lerSensorLinhaEsq() < cinzaEsq) && (robo.lerSensorLinhaDir() > cinzaDir) && (robo.lerSensorLinhaMaisDir() > cinzaMaisDir)){
     resposta = true;
+  }else{
+    resposta = false;
   }
   return resposta;
 }
@@ -32,6 +42,8 @@ boolean Sensores::bbpb(){
   boolean resposta;
   if((robo.lerSensorLinhaMaisEsq() > cinzaMaisEsq) && (robo.lerSensorLinhaEsq() > cinzaEsq) && (robo.lerSensorLinhaDir() < cinzaDir) && (robo.lerSensorLinhaMaisDir() > cinzaMaisDir)){
     resposta = true;
+  }else{
+    resposta = false;
   }
   return resposta;
 }
@@ -41,6 +53,8 @@ boolean Sensores::bppb(){
   boolean resposta;
   if((robo.lerSensorLinhaMaisEsq() > cinzaMaisEsq) && (robo.lerSensorLinhaEsq() < cinzaEsq) && (robo.lerSensorLinhaDir() < cinzaDir) && (robo.lerSensorLinhaMaisDir() > cinzaMaisDir)){
     resposta = true;
+  }else{
+    resposta = false;
   }
   return resposta;
 }
@@ -50,6 +64,8 @@ boolean Sensores::pbbb(){
   boolean resposta;
   if((robo.lerSensorLinhaMaisEsq() < cinzaMaisEsq) && (robo.lerSensorLinhaEsq() > cinzaEsq) && (robo.lerSensorLinhaDir() > cinzaDir) && (robo.lerSensorLinhaMaisDir() > cinzaMaisDir)){
     resposta = true;
+  }else{
+    resposta = false;
   }
   return resposta;
 }
@@ -59,6 +75,8 @@ boolean Sensores::bbbp(){
   boolean resposta;
   if((robo.lerSensorLinhaMaisEsq() > cinzaMaisEsq) && (robo.lerSensorLinhaEsq() > cinzaEsq) && (robo.lerSensorLinhaDir() > cinzaDir) && (robo.lerSensorLinhaMaisDir() < cinzaMaisDir)){
     resposta = true;
+  }else{
+    resposta = false;
   }
   return resposta;  
 }
@@ -68,6 +86,8 @@ boolean Sensores::bbpp(){
   boolean resposta;
   if((robo.lerSensorLinhaMaisEsq() > cinzaMaisEsq) && (robo.lerSensorLinhaEsq() > cinzaEsq) && (robo.lerSensorLinhaDir() < cinzaDir) && (robo.lerSensorLinhaMaisDir() < cinzaMaisDir)){
     resposta = true;
+  }else{
+    resposta = false;
   }
   return resposta;   
 }
@@ -77,6 +97,8 @@ boolean Sensores::ppbb(){
   boolean resposta;
   if((robo.lerSensorLinhaMaisEsq() < cinzaMaisEsq) && (robo.lerSensorLinhaEsq() < cinzaEsq) && (robo.lerSensorLinhaDir() > cinzaDir) && (robo.lerSensorLinhaMaisDir() > cinzaMaisDir)){
     resposta = true;
+  }else{
+    resposta = false;
   }
   return resposta; 
 }
@@ -86,6 +108,8 @@ boolean Sensores::bppp(){
   boolean resposta;
   if((robo.lerSensorLinhaMaisEsq() > cinzaMaisEsq) && (robo.lerSensorLinhaEsq() < cinzaEsq) && (robo.lerSensorLinhaDir() < cinzaDir) && (robo.lerSensorLinhaMaisDir() < cinzaMaisDir)){
     resposta = true;
+  }else{
+    resposta = false;
   }
   return resposta; 
 }
@@ -95,6 +119,8 @@ boolean Sensores::pppb(){
   boolean resposta;
   if((robo.lerSensorLinhaMaisEsq() < cinzaMaisEsq) && (robo.lerSensorLinhaEsq() < cinzaEsq) && (robo.lerSensorLinhaDir() < cinzaDir) && (robo.lerSensorLinhaMaisDir() > cinzaMaisDir)){
     resposta = true;
+  }else{
+    resposta = false;
   }
   return resposta; 
 }
@@ -104,6 +130,8 @@ boolean Sensores::pppp(){
   boolean resposta;
   if((robo.lerSensorLinhaMaisEsq() < cinzaMaisEsq) && (robo.lerSensorLinhaEsq()< cinzaEsq) && (robo.lerSensorLinhaDir() < cinzaDir) && (robo.lerSensorLinhaMaisDir() < cinzaMaisDir)){
     resposta = true;
+  }else{
+    resposta = false;
   }
   return resposta;
 }

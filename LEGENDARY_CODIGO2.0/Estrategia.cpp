@@ -1,45 +1,98 @@
 #include "Estrategia.h"
+#define DELAY_PONTA 150
+#define DELAY_LADO 90
+#define DELAY_FESTA 100
+#define DELAY_EXPULSANDO_DA_FESTA 50 
+#define DELAY_CONTINUE 90
 
 Estrategia::Estrategia(){
   //
 }
 
 void Estrategia::seguirLinha(){
-  
+  if(sensores.bbbb()){
+    motores.frente();
+    frente = true;
+    direita = false;
+    esquerda = false;
+  }else if(sensores.bbpb()){
+    motores.girarDir();
+    frente = false;
+    direita = true;
+    esquerda = false;
+  }else if(sensores.bpbb()){
+    motores.girarEsq();
+    frente = false;
+    direita = false;
+    esquerda = true;
+  }else if(sensores.bbpp()){
+    motores.girarDir();
+    delay(DELAY_LADO);
+    frente = false;
+    direita = true;
+    esquerda = false;
+  }else if(sensores.ppbb()){
+    motores.girarEsq();
+    delay(DELAY_LADO);
+    frente = false;
+    direita = false;
+    esquerda = true;
+  }else if(sensores.bbbp()){
+    motores.voltarDir();
+    delay(90);   
+    motores.girarDir();
+    delay(DELAY_PONTA);
+    frente = false;
+    direita = true;
+    esquerda = false;
+  }else if(sensores.pbbb()){
+    motores.voltarEsq();
+    delay(90);
+    motores.girarEsq();
+    delay(DELAY_PONTA);
+    frente = false;
+    direita = false;
+    esquerda = true;
+  }else if(sensores.bppp()){
+    motores.virarDir();
+    delay(DELAY_EXPULSANDO_DA_FESTA);
+    frente = false;
+    direita = true;
+    esquerda = false;
+  }else if(sensores.pppb()){
+    motores.virarEsq();
+    delay(DELAY_EXPULSANDO_DA_FESTA);
+    frente = false;
+    direita = false;
+    esquerda = true;
+  }else if(sensores.pppp()){
+    motores.parar();
+    frente = false;
+    direita = false;
+    esquerda = false;
+  }else if(sensores.bppb()){
+    if(frente){
+      motores.frente();
+    }else if(direita){
+      motores.girarDir();
+    }else if(esquerda){
+      motores.girarEsq();
+    }
+    delay(DELAY_CONTINUE);
+  }else{
+    //Ação Anterior
+  }
+}
+
+void Estrategia::start(){
+  if(dadosCapturados == false){
+    sensores.start();
+  }
+  dadosCapturados = true;
 }
 
 void Estrategia::executar(){
-  motores.frente();
-  delay(1000);
-  motores.parar();
-  delay(1000);
-  motores.voltar();
-  delay(1000);
-  motores.parar();
-  delay(1000);
-  motores.girarEsq();
-  delay(1000);
-  motores.parar();
-  delay(1000);
-  motores.girarDir();
-  delay(1000);
-  motores.parar();
-  delay(1000);
-  motores.virarEsq();
-  delay(1000);
-  motores.parar();
-  delay(1000);
-  motores.virarDir();
-  delay(1000);
-  motores.parar();
-  delay(1000);
-  motores.voltarEsq();
-  delay(1000);
-  motores.parar();
-  delay(1000);
-  motores.voltarDir();
-  delay(1000);
-  motores.parar();
-  delay(1000);
+  start();
+  seguirLinha();
 }
 

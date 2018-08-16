@@ -29,7 +29,15 @@ void Calibragem::iniciarCalibragem(){
   Serial.println(mediaPreto[3]);
   
   Serial.println("Parte 2 Calibração: Colocar sensores na linha branca (Precione o Botão 2 para Continuar)");
-  while(!robo.botao2Pressionado()){} //Espera Resposta do Botão 2
+  if(TESTES){  
+    delay(300);
+    robo.acionarMotores(35,35);
+    delay(300);
+    robo.acionarMotores(0,0);
+  }else{
+    while(!robo.botao2Pressionado()){} //Espera Resposta do Botão 2
+  }
+  
   toy.led2On();
 
   calibracaoBranco();

@@ -17,7 +17,13 @@ class Estrategia{
     Toy toy;
     Sensores sensores;
     Motores motores;
+
+    boolean frente;
+    boolean direita;
+    boolean esquerda;
     
+    boolean dadosCapturados;
+    void start();
     void seguirLinha();
     void desviarObstaculo();
 };

@@ -1,12 +1,9 @@
-
 #include <robo_hardware2.h>
 #include <Servo.h>
 #include "Toy.h"
 #include "MenuIniciar.h"
 #include "Estrategia.h"
 #include "Calibragem.h"
-
-void imprimirEEPROM();
 
 Toy toy;
 MenuIniciar menuIniciar;

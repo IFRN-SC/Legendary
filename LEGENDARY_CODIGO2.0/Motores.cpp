@@ -1,7 +1,7 @@
 #include "Motores.h"
 
-#define POSITIVO 50
-#define NEGATIVO -50
+#define POSITIVO 30
+#define NEGATIVO -30
 
 Motores::Motores(){
   //
