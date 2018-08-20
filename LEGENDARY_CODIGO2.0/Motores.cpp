@@ -17,4 +17,13 @@ void Motores::virarDir(){robo.acionarMotores(POSITIVO, 0);}
 void Motores::voltarEsq(){robo.acionarMotores(NEGATIVO, 0);}
 void Motores::voltarDir(){robo.acionarMotores(0, NEGATIVO);}
 
+void Motores::girar90Esq(){
+  robo.acionarMotores(NEGATIVO, POSITIVO);
+  delay(630);
+}
+void Motores::girar90Dir(){
+  robo.acionarMotores(POSITIVO, NEGATIVO);
+  delay(630);
+}
+
 

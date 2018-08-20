@@ -25,18 +25,52 @@ void Estrategia::seguirLinha(){
     frente = false;
     direita = false;
     esquerda = true;
+    
   }else if(sensores.bbpp()){
-    motores.girarDir();
-    delay(DELAY_LADO);
+    if(!sensores.bbpp()){
+      while(sensores.bbpb()){
+        motores.girarDir();
+      }
+    } else {
+      while(sensores.bbpb()){
+        motores.girarDir();
+        delay(30);
+      }
+      while(sensores.bbbb()){
+        motores.girarDir();
+        delay(30);
+      }
+      
+      while(sensores.bbpb()){
+        motores.girarEsq();
+      }
+    }
     frente = false;
     direita = true;
     esquerda = false;
-  }else if(sensores.ppbb()){
-    motores.girarEsq();
-    delay(DELAY_LADO);
+    
+  }else if(sensores.ppbb()){    
+    if(!sensores.ppbb()){
+      while(sensores.bpbb()){
+        motores.virarEsq();
+      }
+    } else {
+      while(sensores.bpbb()){
+        motores.girarEsq();
+        delay(50);
+      }
+      while(sensores.bbbb()){
+        motores.girarEsq();
+        delay(50);
+      }
+      while(sensores.bpbb()){
+        motores.girarDir();
+      }
+    }
     frente = false;
     direita = false;
     esquerda = true;
+
   }else if(sensores.bbbp()){
     motores.voltarDir();
     delay(90);   
