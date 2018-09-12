@@ -13,8 +13,10 @@ Calibragem calibragem;
 void setup() {
   Serial.begin(9600);
   robo.configurar(false);
+  robo.habilitaTCS34();
   
   toy.start();
+  menuIniciar.dadosEEPROM();
   menuIniciar.menuBotoes();
 }
 

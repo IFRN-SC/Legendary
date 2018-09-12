@@ -19,6 +19,8 @@ class Sensores{
     boolean bpbb(); 
     boolean bppb();
     boolean pppp();
+
+    boolean sonar();
     
     float cinzaMaisEsq;
     float cinzaEsq;

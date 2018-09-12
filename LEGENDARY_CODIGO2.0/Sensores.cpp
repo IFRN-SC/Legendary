@@ -1,4 +1,5 @@
 #include "Sensores.h"
+#define DISTANCIA 4.80
 
 Sensores::Sensores(){
   //
@@ -131,6 +132,16 @@ boolean Sensores::pppp(){
   if((robo.lerSensorLinhaMaisEsq() < cinzaMaisEsq) && (robo.lerSensorLinhaEsq()< cinzaEsq) && (robo.lerSensorLinhaDir() < cinzaDir) && (robo.lerSensorLinhaMaisDir() < cinzaMaisDir)){
     resposta = true;
   }else{
+    resposta = false;
+  }
+  return resposta;
+}
+
+boolean Sensores::sonar(){
+  boolean resposta;
+  if(robo.lerSensorSonarFrontal() <= DISTANCIA){
+    resposta = true;
+  } else {
     resposta = false;
   }
   return resposta;

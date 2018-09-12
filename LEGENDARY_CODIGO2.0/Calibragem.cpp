@@ -39,7 +39,6 @@ void Calibragem::iniciarCalibragem(){
   }
   
   toy.led2On();
-
   calibracaoBranco();
   
   Serial.println("Captura dos Valores Branco Completo");

@@ -6,7 +6,7 @@
 #include "Toy.h"
 #include "Sensores.h"
 
-#define TESTES true
+#define TESTES false
 
 class Calibragem{
   public:
@@ -24,7 +24,6 @@ class Calibragem{
     Toy toy;
     Sensores sensores;
     calibracao_dados val;
-
     
     void calibracaoBranco();
     void calibracaoPreto();

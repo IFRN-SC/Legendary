@@ -16,8 +16,11 @@ class Motores{
     void virarDir();
     void voltarEsq();
     void voltarDir();
+    void giroDiferenteEsq();
+    void giroDiferenteDir();
     void girar90Esq();
     void girar90Dir();
+    void frenteCurva();
 };
 
 #endif

@@ -105,6 +105,6 @@ void Toy::start(){
   pinMode(pinLED2, OUTPUT);
   pinMode(pinLED3, OUTPUT);
 
-  Serial.println("Pinos para os Leds Configurados");
+  Serial.println("Pinos para a classe TOY configurados");
 }
 
