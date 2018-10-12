@@ -1,12 +1,9 @@
 #include "Estrategia.h"
-#define DELAY_CURVA 500
-#define DELAY_PONTA 150
-#define DELAY_VERIFICACAO 275
-#define DELAY_LADO 90
-#define DELAY_FESTA 100
-#define DELAY_EXPULSANDO_DA_FESTA 50 
-#define DELAY_CONTINUE 90
-#define DISTANCIA 4.60
+#define DELAY_PARADA_CURVA 150
+#define DELAY_VOLTAR_CURVA 100
+#define DELAY_VERIFICACAO_ONDE_ESTOU 300 
+#define DELAY_VERIFICACAO_PPPP 500
+
 #define DELAY_TAMANHO_OBSTACULO 1200
 
 Estrategia::Estrategia(){
@@ -14,178 +11,162 @@ Estrategia::Estrategia(){
 }
 
 void Estrategia::seguirLinha(){
-  if(sensores.bbbb()){
+  if(refletancia.bbbb()){
     motores.frente();
     frente = true;
     direita = false;
     esquerda = false;
-  }else if(sensores.bbpb()){
+  }else if(refletancia.bbpb()){
     motores.girarDir();
     frente = false;
     direita = true;
     esquerda = false;
-  }else if(sensores.bpbb()){
+  }else if(refletancia.bpbb()){
     motores.girarEsq();
     frente = false;
     direita = false;
     esquerda = true;
-    
-  }else if(sensores.bbpp()){
-    robo.ligarLed(2);
+  
+  //TEM EM BAIXO
+  }else if(refletancia.bbpp()){
+    robo.ligarLed(1);
     motores.parar();
-    delay(DELAY_VERIFICACAO);
-    motores.frenteCurva();
-    if(!sensores.bbpp()){
-      while(!sensores.bpbb()){
-        motores.girarDir();
+    delay(DELAY_VERIFICACAO_ONDE_ESTOU);
+    if(!refletancia.bbbb()){
+      while(!refletancia.bbbb()){
+        if(refletancia.bppb()){
+          robo.ligarLed(2); 
+        }
+        motores.frente();
       }
-      while(sensores.bpbb()){
-        motores.girarEsq();
-      }
+      /*
+    motores.parar();
+      delay(DELAY_PARADA_CURVA);
+      motores.voltar();
+      delay(DELAY_VOLTAR_CURVA);
+      */
       motores.parar();
-      delay(DELAY_VERIFICACAO);
-    } else {
-      while(sensores.bbpp()){
+      delay(DELAY_PARADA_CURVA);
+      while(!refletancia.bpbb()){
+        if(refletancia.bppb()){
+          robo.ligarLed(2); 
+        }
         motores.girarDir();
       }
-      while(sensores.bbpb()){
+      while(!refletancia.bbbb()){
+        if(refletancia.bppb()){
+          robo.ligarLed(2); 
+        }
+        motores.girarDevagarEsq();
+      }  
+    }else{
+      while(!refletancia.bpbb()){
+        if(refletancia.bppb()){
+          robo.ligarLed(2); 
+        }
         motores.girarDir();
       }
-      while(sensores.bppb()){
-        motores.girarDir();
-      }
-      while(sensores.bpbb()){
-        motores.girarEsq();
+      while(!refletancia.bbbb()){
+        if(refletancia.bppb()){
+          robo.ligarLed(2); 
+        }
+        motores.girarDevagarEsq();
       }
     }
     
     frente = false;
     direita = true;
     esquerda = false;
-  }else if(sensores.ppbb()){
-    robo.ligarLed(2);    
+
+  //TEM EM CIMA
+  }else if(refletancia.ppbb()){
+    robo.ligarLed(1);
     motores.parar();
-    delay(DELAY_VERIFICACAO);
-    motores.frenteCurva();
-    if(!sensores.ppbb()){
-      while(!sensores.bbpb()){
-        motores.girarEsq();
+    delay(DELAY_VERIFICACAO_ONDE_ESTOU);
+    if(!refletancia.bbbb()){
+      while(!refletancia.bbbb()){
+        motores.frente();
       }
-      while(sensores.bbpb()){
-        motores.girarDir();
-      }
+      /*
       motores.parar();
-      delay(DELAY_VERIFICACAO);
-    } else { 
-      while(sensores.ppbb()){
-        motores.giroDiferenteEsq();
-      }
-      while(sensores.bpbb()){
+      delay(DELAY_PARADA_CURVA);
+      motores.voltar();
+      delay(DELAY_VOLTAR_CURVA);
+      */
+      motores.parar();
+      delay(DELAY_PARADA_CURVA);
+      while(!refletancia.bbpb()){
+        if(refletancia.bppb()){
+          robo.ligarLed(2); 
+        }
         motores.girarEsq();
       }
-      while(sensores.bppb()){
+      
+      while(!refletancia.bbbb()){
+        if(refletancia.bppb()){
+          robo.ligarLed(2); 
+        }
+        motores.girarDevagarDir();
+      }  
+    }else{
+      while(!refletancia.bbpb()){
+        if(refletancia.bppb()){
+          robo.ligarLed(2); 
+        }
         motores.girarEsq();
       }
-      while(sensores.bbpb()){
-        motores.girarDir();
+      while(!refletancia.bbbb()){
+        if(refletancia.bppb()){
+          robo.ligarLed(2); 
+        }
+        motores.girarDevagarDir();
       }
     }
+    
     frente = false;
     direita = false;
     esquerda = true;
 
-  }else if(sensores.bbbp()){
+  }else if(refletancia.bbbp()){
     motores.girarDir();
-    delay(DELAY_PONTA);
     frente = false;
     direita = true;
     esquerda = false;
-  }else if(sensores.pbbb()){
+  }else if(refletancia.pbbb()){
     motores.girarEsq();
-    delay(DELAY_PONTA);
     frente = false;
     direita = false;
     esquerda = true;
-  }else if(sensores.bppp()){
-    motores.parar();
-    delay(DELAY_VERIFICACAO);
-    if(!sensores.bppp()){
-      while(sensores.bppp()){
-        motores.girarDir();
-      }
-      while(sensores.bbpb()){
-        motores.girarDir();
-      }
-      while(sensores.bppb()){
-        motores.girarDir();
-      }
-      while(sensores.bpbb()){
-        motores.girarEsq();
-      }
-      motores.parar();
-      delay(DELAY_VERIFICACAO);
-    } else {
-      while(sensores.bppp()){
-        motores.giroDiferenteDir();
-      }
-      while(sensores.bpbb()){
-        motores.giroDiferenteDir();
-      }
-      while(sensores.bppb()){
-        motores.giroDiferenteDir();
-      }
-      while(sensores.bpbb()){
-        motores.girarEsq();        
-      }
-    }
-    
+  }else if(refletancia.bppp()){
+    motores.girarDir();
     frente = false;
     direita = true;
     esquerda = false;
-  }else if(sensores.pppb()){
-    motores.parar();
-    delay(DELAY_VERIFICACAO);
-    if(!sensores.pppb()){
-      while(sensores.pppb()){
-        motores.girarEsq();
-      }
-      while(sensores.bpbb()){
-        motores.girarEsq();
-      }
-      while(sensores.bppb()){
-        motores.girarEsq();
-      }
-      while(sensores.bbpb()){
-        motores.girarDir();
-      }
-      motores.parar();
-      delay(DELAY_VERIFICACAO);
-    } else {
-      while(sensores.pppb()){
-        motores.giroDiferenteEsq();
-      }
-      while(sensores.bpbb()){
-        motores.giroDiferenteEsq();
-      }
-      while(sensores.bppb()){
-        motores.giroDiferenteEsq();
-      }
-      while(sensores.bbpb()){
-        motores.girarDir();
-      }
-    }
-    
+  }else if(refletancia.pppb()){
+    motores.girarEsq();
     frente = false;
     direita = false;
     esquerda = true;
-  }else if(sensores.pppp()){
+  }else if(refletancia.pppp()){
+    robo.ligarLed(1);
+    motores.frente();
+    delay(1500);
+    motores.girarDir();
+    delay(500); 
     motores.parar();
+    delay(DELAY_VERIFICACAO_PPPP);
+    
+    /*
+    if(!refletancia.pppp()){
+      voltarAtePPPP();
+    }
+    */
     frente = false;
     direita = false;
     esquerda = false;
     
-  }else if(sensores.bppb()){
-    robo.ligarLed(3); 
+  }else if(refletancia.bppb()){
+    robo.ligarLed(3);
     /*
     
     if(frente){
@@ -202,53 +183,32 @@ void Estrategia::seguirLinha(){
   }
 }
 
-void Estrategia::desviarObstaculo(){
-  if(sensores.sonar()){
-    motores.parar();
-    delay(1000);
-    if(sensores.sonar()){
-      motores.girar90Dir();
-      motores.parar();
-      delay(1000);
-      motores.frente();
-      delay(750);
-      motores.parar();
-      delay(1000);
-      motores.girar90Esq();
-      motores.parar();
-      delay(1000);
-      motores.frente();
-      delay(DELAY_TAMANHO_OBSTACULO);
-      motores.parar();
-      delay(1000);
-      motores.girar90Esq();
-      motores.parar();
-      delay(1000);
-      while(!sensores.bbbb()){
-        motores.frente(); 
-      }
-      motores.parar();
-      delay(1000);
-      motores.girar90Dir();
-      motores.parar();
-      delay(1000);
-    } 
+void Estrategia::voltarAtePPPP(){
+  if(refletancia.bbbb()){
+    while(refletancia.pppp()){
+      motores.voltarDevagar(); 
+    }
   }
 }
 
+
 void Estrategia::start(){
   if(dadosCapturados == false){
-    sensores.start();
+    refletancia.start();
   }
   dadosCapturados = true;
 }
 
 void Estrategia::executar(){
-  robo.desligarLed(1);
-  robo.desligarLed(2);
-  robo.desligarLed(3);
+  toy.desligarLeds();
   start();
+  
   //desviarObstaculo();
   seguirLinha();
+  /*
+  while(!robo.botao1Pressionado()){
+    cor.testarVerde();
+  }
+  */
 }
 

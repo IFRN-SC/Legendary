@@ -6,31 +6,30 @@
 #include "Toy.h"
 #include "Calibragem.h"
 #include "Estrategia.h"
+#include "SensoresRefletancia.h"
+#include "SensoresCor.h"
+#include "SensoresDistancia.h"
+#include "SensorIMU.h"
+#include "SensoresAlavanca.h"
 
 class MenuIniciar{
   public:
     Calibragem calibragem;
     MenuIniciar();
+    
     void menuBotoes();
-    void dadosEEPROM();
   
   private:
     void menuSerial();
     
     Toy toy;
     calibracao_dados val;
-
-    float valorSensorMaisEsq;
-    float valorSensorEsq;
-    float valorSensorDir;
-    float valorSensorMaisDir;
-
-    float valorSensorFrontal;
-    float valorSensorLateralEsq;
-    float valorSensorLateralDir;
-
-    RGB valorSensorCorEsq;
-    RGB valorSensorCorDir; 
+    SensoresRefletancia refletancia;
+    SensoresCor cor;
+    SensoresDistancia sonar;
+    SensorIMU imu;
+    SensoresAlavanca alavanca;
+    Estrategia estrategia;
 };
 
 #endif

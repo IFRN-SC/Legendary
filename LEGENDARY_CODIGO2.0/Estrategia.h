@@ -5,17 +5,22 @@
 #include <Servo.h>
 #include "Toy.h"
 #include "Calibragem.h"
-#include "Sensores.h"
+#include "SensoresRefletancia.h"
+#include "SensoresCor.h"
+#include "SensoresDistancia.h"
 #include "Motores.h"
 
 class Estrategia{
   public:
     Estrategia();
     void executar();
+    void seguirLinhaRampa();
   private:
     Calibragem calibragem;
     Toy toy;
-    Sensores sensores;
+    SensoresRefletancia refletancia;
+    SensoresCor cor;
+    SensoresDistancia sonar;
     Motores motores;
 
     boolean frente;
@@ -25,7 +30,9 @@ class Estrategia{
     boolean dadosCapturados;
     void start();
     void seguirLinha();
-    void desviarObstaculo();
+    //void desviarObstaculo();
+
+    void voltarAtePPPP();
 };
 
 #endif

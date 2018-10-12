@@ -2,11 +2,13 @@
 #define MOTORES_H
 
 #include <robo_hardware2.h>
-#include <Servo.h>
+#include "Toy.h"
 
 class Motores{
   public:
     Motores();
+
+    //Movimentos Padrões
     void frente();
     void voltar();
     void parar();
@@ -16,11 +18,31 @@ class Motores{
     void virarDir();
     void voltarEsq();
     void voltarDir();
+    
+    //Movimentos Devagar
+    void frenteDevagar();
+    void voltarDevagar();
+    void girarDevagarEsq();
+    void girarDevagarDir();
+    void virarDevagarEsq();
+    void virarDevagarDir();
+    void voltarDevagarEsq();
+    void voltarDevagarDir();
+
+    //Movimentos Diferenciados
     void giroDiferenteEsq();
     void giroDiferenteDir();
+
+    //Movimentos de 90 Graus
     void girar90Esq();
     void girar90Dir();
+
+    //Movimentos Especificos
     void frenteCurva();
+    void pararAteBotao1();
+    
+  private:
+    Toy toy;
 };
 
 #endif
