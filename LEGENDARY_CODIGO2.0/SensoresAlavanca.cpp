@@ -1,7 +1,7 @@
 #include "SensoresAlavanca.h"
 
-#define PIN_ALAVANCA_ESQ 15
-#define PIN_ALAVANCA_DIR 14
+#define PIN_ALAVANCA_ESQ 4
+#define PIN_ALAVANCA_DIR 5
 
 void testar();
 
@@ -10,6 +10,8 @@ SensoresAlavanca::SensoresAlavanca(){
 }
 
 void SensoresAlavanca::start(){
+  pinMode(PIN_ALAVANCA_ESQ, INPUT_PULLUP);
+  pinMode(PIN_ALAVANCA_DIR, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(PIN_ALAVANCA_DIR), testar, CHANGE);
 }
 
