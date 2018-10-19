@@ -8,9 +8,10 @@
 
 //Delays que eu não sei para que serve pq esqueci
 #define DELAY_PARADA_CURVA 150
-#define DELAY_VOLTAR_CURVA 100
-#define DELAY_VERIFICACAO_ONDE_ESTOU 300 
+#define DELAY_VOLTAR_CURVA 100 
 #define DELAY_VERIFICACAO_PPPP 500
+
+int i = 0;
 
 Estrategia::Estrategia(){
   //
@@ -29,6 +30,7 @@ void Estrategia::executar(){
   
   //desviarObstaculo();
   seguirLinha();
+  //cor.testarVerde();
 }
 
 void Estrategia::seguirLinha(){
@@ -46,84 +48,105 @@ void Estrategia::seguirLinha(){
   
   } else if(refletancia.bbpp()) {
     setDireita();
-    robo.ligarLed(1);
-    motores.parar();
-    delay(DELAY_VERIFICACAO_ONDE_ESTOU);
-    if(!refletancia.bbbb()){
-      while(!refletancia.bbbb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.frente();
-      }
-      motores.parar();
-      delay(DELAY_PARADA_CURVA);
-      while(!refletancia.bpbb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.girarDir();
-      }
-      while(!refletancia.bbbb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.girarDevagarEsq();
-      }  
-    } else {
-      while(!refletancia.bpbb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.girarDir();
-      }
-      while(!refletancia.bbbb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.girarDevagarEsq();
-      }
-    }
+    motores.miniParada();
 
+    //Alinhar
+    if(refletancia.bbbb()){
+      //Retornar a Linha
+      i = 0;
+      while(!(refletancia.sensorMaisDir('P'))){ 
+        i++;
+        if(i >= 1500){
+          break;
+        }
+        motores.voltarDevagar();
+      }  
+    }
+    //Andar um pouco
+    motores.miniParada();
+    motores.frenteCurva();
+    motores.miniParada();
+    
+    //Girar
+    i = 0;
+    while(!refletancia.sensorDir('P')){
+        i++;
+        if(i >= 1500){
+          break;
+        }
+        motores.giroCurvaDir();
+    }
+    i = 0;
+    while(!refletancia.sensorEsq('P')){
+        i++;
+        if(i >= 1500){
+          break;
+        }
+        motores.giroCurvaDir();
+    }
+    i = 0;
+    while(!refletancia.bbbb()){
+      i++;
+      if(i >= 1500){
+        break;
+      }
+      motores.giroCurvaEsq();
+    }
+    motores.voltarDevagar();
+    delay(125);
+    motores.miniParada();
+
+    
   } else if(refletancia.ppbb()) {
     setEsquerda();
-    robo.ligarLed(1);
-    motores.parar();
-    delay(DELAY_VERIFICACAO_ONDE_ESTOU);
-    if(!refletancia.bbbb()){
-      while(!refletancia.bbbb()){
-        motores.frente();
-      }
+    motores.miniParada();
 
-      motores.parar();
-      delay(DELAY_PARADA_CURVA);
-      while(!refletancia.bbpb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
+    //Alinhar
+    if(refletancia.bbbb()){
+      //Retornar A Linha
+      i = 0;
+      while(!(refletancia.sensorMaisDir('P'))){ 
+        i++;
+        if(i >= 1500){
+          break;
         }
-        motores.girarEsq();
-      }
-      
-      while(!refletancia.bbbb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.girarDevagarDir();
-      }  
-    }else{
-      while(!refletancia.bbpb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.girarEsq();
-      }
-      while(!refletancia.bbbb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.girarDevagarDir();
-      }
+        motores.voltarDevagar();
+      } 
     }
+    //Andar um pouco
+    motores.miniParada();
+    motores.frenteCurva();
+    motores.miniParada();
+
+    //Girar
+    i = 0;
+    while(!refletancia.sensorEsq('P')){
+        i++;
+        if(i >= 1500){
+          break;
+        }
+        motores.giroCurvaEsq();
+    }
+    i = 0;
+    while(!refletancia.sensorDir('P')){
+        i++;
+        if(i >= 1500){
+          break;
+        }
+        motores.giroCurvaEsq();
+    }
+    i = 0;
+    while(!refletancia.bbbb()){
+      i++;
+      if(i >= 1500){
+        break;
+      }
+      motores.giroCurvaDir();
+    }
+
+    motores.voltarDevagar();
+    delay(125);
+    motores.miniParada();
 
   }else if(refletancia.bbbp()){
     setDireita();

@@ -30,6 +30,8 @@ class SensoresCor{
     HSV divisorBrancoVerdeEsq;
     HSV divisorPretoVerdeDir;
     HSV divisorBrancoVerdeDir;
+    HSV divisorPretoBrancoEsq;
+    HSV divisorPretoBrancoDir;
 
     RGB valorSensorCorRGBEsq;
     RGB valorSensorCorRGBDir;

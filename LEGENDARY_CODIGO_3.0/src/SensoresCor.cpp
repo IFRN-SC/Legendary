@@ -8,12 +8,17 @@ SensoresCor::SensoresCor(){
 
 void SensoresCor::testarVerde(){
   if(verificarVerdeEsq()){
-    robo.ligarLed(3);
-    robo.desligarLed(2);
+    Serial.println("Esquerdo: É Verde");
   } else {
-    robo.desligarLed(3);
-    robo.ligarLed(2);
+    Serial.println("Esquerdo: Não é Verde");
   }
+  if(verificarVerdeDir()){
+    Serial.println("Direito: É Verde");
+  } else {
+    Serial.println("Direito: Não é Verde");
+  }
+  Serial.println("----------------------");
+  delay(1000);
 }
 
 boolean SensoresCor::vv(){
@@ -35,24 +40,31 @@ boolean SensoresCor::nn(){
 }
 
 boolean SensoresCor::verificarVerdeEsq(){
-  boolean resposta;
+  boolean resposta = false;
   valorSensorCorHSVEsq = robo.getHSVEsquerdo(); 
 
-  //Para o .v: O Verde é maior que o Preto e menor que o Branco
-  if(valorSensorCorHSVEsq.v > divisorPretoVerdeEsq.v && valorSensorCorHSVEsq.v < divisorBrancoVerdeEsq.v){
-    //Para o .h: O Verde é menor que o Preto e Menor que o Branco
-    if(valorSensorCorHSVEsq.h < divisorPretoVerdeEsq.h && valorSensorCorHSVEsq.h < divisorBrancoVerdeEsq.h){
-      resposta = true; 
+  if((valorSensorCorHSVEsq.h < divisorBrancoVerdeEsq.h)){
+    if((valorSensorCorHSVEsq.v > divisorPretoVerdeEsq.v) && (valorSensorCorHSVEsq.v < divisorBrancoVerdeEsq.v)){
+      resposta = true;
     }
   }else{
     resposta = false;
   }
-
   return resposta;
 }
 
 boolean SensoresCor::verificarVerdeDir(){
-  
+  boolean resposta = false;
+  valorSensorCorHSVDir = robo.getHSVDireito(); 
+
+  if((valorSensorCorHSVDir.h < divisorBrancoVerdeDir.h)){
+    if((valorSensorCorHSVDir.v > divisorPretoVerdeDir.v) && (valorSensorCorHSVDir.v < divisorBrancoVerdeDir.v)){
+      resposta = true;
+    }
+  }else{
+    resposta = false;
+  }
+  return resposta;
 }
 
 void SensoresCor::printSensoresDeCorRGB(){  
@@ -122,21 +134,24 @@ void SensoresCor::pegarDadosEEPROM(){
 }
 
 void SensoresCor::calcularDivisores(){
+  //Calculando Cortes para H
   divisorPretoVerdeEsq.h = (mediaPretoCorEsq.h + mediaVerdeCorEsq.h) / 2;
-  divisorPretoVerdeEsq.s = (mediaPretoCorEsq.s + mediaVerdeCorEsq.s) / 2;
-  divisorPretoVerdeEsq.v = (mediaPretoCorEsq.v + mediaVerdeCorEsq.v) / 2;
-  
   divisorPretoVerdeDir.h = (mediaPretoCorDir.h + mediaVerdeCorDir.h) / 2;
-  divisorPretoVerdeDir.s = (mediaPretoCorDir.s + mediaVerdeCorDir.s) / 2;
+
+  divisorBrancoVerdeEsq.h = (mediaBrancoCorEsq.h + mediaVerdeCorEsq.h) / 2;
+  divisorBrancoVerdeDir.h = (mediaBrancoCorDir.h + mediaVerdeCorDir.h) / 2;
+
+  divisorPretoBrancoEsq.h = (mediaPretoCorEsq.h + mediaBrancoCorEsq.h) / 2;
+  divisorPretoBrancoDir.h = (mediaPretoCorDir.h + mediaBrancoCorDir.h) / 2;
+
+  //Calculando Cortes para V
+  divisorPretoVerdeEsq.v = (mediaPretoCorEsq.v + mediaVerdeCorEsq.v) / 2;
   divisorPretoVerdeDir.v = (mediaPretoCorDir.v + mediaVerdeCorDir.v) / 2;
   
-  divisorBrancoVerdeEsq.h = (mediaBrancoCorEsq.h + mediaVerdeCorEsq.h) / 2;
-  divisorBrancoVerdeEsq.s = (mediaBrancoCorEsq.s + mediaVerdeCorEsq.s) / 2;
   divisorBrancoVerdeEsq.v = (mediaBrancoCorEsq.v + mediaVerdeCorEsq.v) / 2;
-
-  divisorBrancoVerdeDir.h = (mediaBrancoCorDir.h + mediaVerdeCorDir.h) / 2;
-  divisorBrancoVerdeDir.s = (mediaBrancoCorDir.s + mediaVerdeCorDir.s) / 2;
   divisorBrancoVerdeDir.v = (mediaBrancoCorDir.v + mediaVerdeCorDir.v) / 2;
-   
+
+  divisorPretoBrancoEsq.v = (mediaPretoCorEsq.v + mediaBrancoCorEsq.v) / 2;
+  divisorPretoBrancoDir.v = (mediaPretoCorDir.v + mediaBrancoCorDir.v) / 2; 
 }
 
