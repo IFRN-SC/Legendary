@@ -45,86 +45,9 @@ void Estrategia::seguirLinha(){
     motores.girarEsq();
   
   } else if(refletancia.bbpp()) {
-    setDireita();
-    robo.ligarLed(1);
-    motores.parar();
-    delay(DELAY_VERIFICACAO_ONDE_ESTOU);
-    if(!refletancia.bbbb()){
-      while(!refletancia.bbbb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.frente();
-      }
-      motores.parar();
-      delay(DELAY_PARADA_CURVA);
-      while(!refletancia.bpbb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.girarDir();
-      }
-      while(!refletancia.bbbb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.girarDevagarEsq();
-      }  
-    } else {
-      while(!refletancia.bpbb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.girarDir();
-      }
-      while(!refletancia.bbbb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.girarDevagarEsq();
-      }
-    }
-
+    //
   } else if(refletancia.ppbb()) {
-    setEsquerda();
-    robo.ligarLed(1);
-    motores.parar();
-    delay(DELAY_VERIFICACAO_ONDE_ESTOU);
-    if(!refletancia.bbbb()){
-      while(!refletancia.bbbb()){
-        motores.frente();
-      }
-
-      motores.parar();
-      delay(DELAY_PARADA_CURVA);
-      while(!refletancia.bbpb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.girarEsq();
-      }
-      
-      while(!refletancia.bbbb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.girarDevagarDir();
-      }  
-    }else{
-      while(!refletancia.bbpb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.girarEsq();
-      }
-      while(!refletancia.bbbb()){
-        if(refletancia.bppb()){
-          robo.ligarLed(2); 
-        }
-        motores.girarDevagarDir();
-      }
-    }
-
+    //
   }else if(refletancia.bbbp()){
     setDireita();
     motores.girarDir();
