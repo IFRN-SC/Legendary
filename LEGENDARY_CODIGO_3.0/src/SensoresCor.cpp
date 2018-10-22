@@ -12,13 +12,19 @@ void SensoresCor::testarVerde(){
   } else {
     Serial.println("Esquerdo: Não é Verde");
   }
+  delay(100);
   if(verificarVerdeDir()){
     Serial.println("Direito: É Verde");
   } else {
     Serial.println("Direito: Não é Verde");
   }
+  if(verificarVerdeEsq() && verificarVerdeDir()){
+    robo.ligarLed(3);
+  } else {
+    robo.desligarLed(3);
+  }
   Serial.println("----------------------");
-  delay(1000);
+  delay(100);
 }
 
 boolean SensoresCor::vv(){

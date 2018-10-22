@@ -70,10 +70,10 @@ void MenuIniciar::menuSerial(){
       Serial.println(F("  2- Ver sensores de Distancia"));
       Serial.println(F("  3- Ver sensores de Cor RGB"));
       Serial.println(F("  4- Ver sensores de Cor HSV"));
-      Serial.println(F("  5- Ver sensor IMU (Acelerômetro)"));
-      Serial.println(F("  6- Ver sensor IMU (Giroscôpio)"));
-      Serial.println(F("  7- Ver sensor IMU (Completo)"));
-      Serial.println(F("  8- Calibrar sensor IMU"));
+      Serial.println(F("  5- Testar Julgamento do Verde"));
+      Serial.println(F("  6- Ver sensor IMU (Acelerômetro)"));
+      Serial.println(F("  7- Ver sensor IMU (Giroscôpio)"));
+      Serial.println(F("  8- Ver sensor IMU (Completo)"));
       Serial.println(F("  9- Ver valores das Calibragens"));
       Serial.println(F("  10- Limpar Roda"));
       Serial.println(F("Digite -1 para sair do Menu Serial")); 
@@ -143,7 +143,19 @@ void MenuIniciar::menuSerial(){
         naoImprimir = false;
         break;
         
-      case 5: //Ver Sensor IMU (Acelerômetro)
+      case 5: //Testar Julgamento do Verde nos sensores de cor
+        toy.desligarLeds();
+        Serial.println(F("\nEntrando em Loop para ver os Sensores de Cor na forma HSV..."));
+        Serial.println(F("(Digite -1 para sair da Repetição)\n"));
+        
+        while(Serial.parseInt() != -1){
+          cor.testarVerde();
+        }
+      
+        naoImprimir = false;
+        break;
+        
+      case 6: //Ver Sensor IMU (Acelerômetro)
         Serial.println(F("\nEntrando em Loop para ver o Acelerômetro do sensor IMU..."));
         Serial.println(F("(Digite -1 para sair da Repetição)\n"));
         
@@ -153,8 +165,8 @@ void MenuIniciar::menuSerial(){
         }
         naoImprimir = false;
         break;
-        
-      case 6: //Ver Sensor IMU (Giroscôpio)
+      
+      case 7: //Ver Sensor IMU (Giroscôpio)
         Serial.println(F("\nEntrando em Loop para ver o Giroscôpio do sensor IMU..."));
         Serial.println(F("(Digite -1 para sair da Repetição)\n"));
         while(Serial.parseInt() != -1){
@@ -164,7 +176,7 @@ void MenuIniciar::menuSerial(){
         naoImprimir = false;
         break;
       
-      case 7: //Ver Sensor IMU (Completo)
+      case 8: //Ver Sensor IMU (Completo)
         Serial.println(F("\nEntrando em Loop para ver todos os dados do sensor IMU..."));
         Serial.println(F("(Digite -1 para sair da Repetição)\n"));
         while(Serial.parseInt() != -1){
@@ -172,9 +184,6 @@ void MenuIniciar::menuSerial(){
           delay(300);
         }
         naoImprimir = false;
-        break;
-      
-      case 8: //Calibrar Sensor IMU
         break;
         
       case 9: //Ver dados Calibração

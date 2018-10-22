@@ -28,7 +28,6 @@ void Estrategia::executar(){
 
   toy.desligarLeds();
   start();
-  
   //desviarObstaculo();
   seguirLinha();
 }
@@ -46,22 +45,41 @@ void Estrategia::seguirLinha(){
     setEsquerda();
     motores.giroLeveEsq();
   
+  //Tem em Baixo
   } else if(refletancia.bbpp()) {
     robo.ligarLed(3);
+    motores.miniParada();
+    if(refletancia.bbbb()){
+      robo.ligarLed(1);
+      while(refletancia.bbbb()){
+        motores.voltarCurva();
+      }
+    }
+    motores.frenteCurva();
+    
     while(!refletancia.sensorEsq('P')){
       motores.giroCurvaDir();
     }
-    while(!refletancia.sensorEsq('B')){
-      motores.giroCurvaEsq();
+    while(refletancia.sensorEsq('P')){
+      motores.giroLeveEsq();
     }
 
+  //Tem em Cima
   } else if(refletancia.ppbb()) {
-    robo.ligarLed(3);
+    motores.miniParada();
+    if(refletancia.bbbb()){
+      robo.ligarLed(1);
+      while(refletancia.bbbb()){
+        motores.voltarCurva();
+      }
+    }
+    motores.frenteCurva();
+
     while(!refletancia.sensorDir('P')){
       motores.giroCurvaEsq();
     }
-    while(!refletancia.sensorDir('B')){
-      motores.giroCurvaDir();
+    while(refletancia.sensorDir('P')){
+      motores.giroLeveDir();
     }
 
   

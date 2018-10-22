@@ -2,8 +2,8 @@
 
 #define DIFERENCA 3
 
-#define DIR_POSITIVO 46
-#define DIR_NEGATIVO -46
+#define DIR_POSITIVO 48
+#define DIR_NEGATIVO -48
 #define ESQ_POSITIVO (DIR_POSITIVO + DIFERENCA)
 #define ESQ_NEGATIVO (DIR_NEGATIVO - DIFERENCA)
 
@@ -17,8 +17,8 @@
 #define ESQ_POSITIVO_CURVA (DIR_POSITIVO_CURVA + DIFERENCA)
 #define ESQ_NEGATIVO_CURVA (DIR_NEGATIVO_CURVA - DIFERENCA)
 
-#define DIR_POSITIVO_GIRO_LEVE 30
-#define DIR_NEGATIVO_GIRO_LEVE -30
+#define DIR_POSITIVO_GIRO_LEVE 28
+#define DIR_NEGATIVO_GIRO_LEVE -28
 #define ESQ_POSITIVO_GIRO_LEVE (DIR_POSITIVO_GIRO_LEVE + DIFERENCA)
 #define ESQ_NEGATIVO_GIRO_LEVE (DIR_NEGATIVO_GIRO_LEVE - DIFERENCA)
 
@@ -75,9 +75,14 @@ void Motores::voltarDevagarEsq(){robo.acionarMotores(ESQ_NEGATIVO_DEVAGAR, 0);}
 void Motores::voltarDevagarDir(){robo.acionarMotores(0, DIR_NEGATIVO_DEVAGAR);}
 
 //Movimentos Curva
+void Motores::frenteCurva(){
+  robo.acionarMotores(ESQ_POSITIVO_FRENTE_CURVA, DIR_POSITIVO_FRENTE_CURVA);
+  delay(DELAY_FRENTE_CURVA);
+}
+void Motores::voltarCurva(){robo.acionarMotores(ESQ_NEGATIVO_CURVA, DIR_NEGATIVO_CURVA);}
 void Motores::giroCurvaEsq(){robo.acionarMotores(ESQ_NEGATIVO_CURVA, DIR_POSITIVO_CURVA);}
 void Motores::giroCurvaDir(){robo.acionarMotores(ESQ_POSITIVO_CURVA, DIR_NEGATIVO_CURVA);}
-void Motores::voltarCurva(){robo.acionarMotores(ESQ_NEGATIVO_CURVA, DIR_NEGATIVO_CURVA);}
+
 
 //Movimentos Leves
 void Motores::giroLeveEsq(){robo.acionarMotores(ESQ_NEGATIVO_GIRO_LEVE, DIR_POSITIVO_GIRO_LEVE);}
@@ -111,12 +116,7 @@ void Motores::acaoRedutor(){
   delay(1000);
 }
 
-//Movimentos Especificos
-void Motores::frenteCurva(){
-  robo.acionarMotores(ESQ_POSITIVO_FRENTE_CURVA, DIR_POSITIVO_FRENTE_CURVA);
-  delay(DELAY_FRENTE_CURVA);
-}
-
+//Movimentos Especificoa
 void Motores::miniParada(){
   robo.acionarMotores(0, 0);
   delay(DELAY_MINI_PARADA);
