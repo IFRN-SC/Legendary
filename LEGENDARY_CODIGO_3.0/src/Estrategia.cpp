@@ -8,10 +8,9 @@
 
 //Delays que eu não sei para que serve pq esqueci
 #define DELAY_PARADA_CURVA 150
-#define DELAY_VOLTAR_CURVA 100 
+#define DELAY_VOLTAR_CURVA 100
+#define DELAY_VERIFICACAO_ONDE_ESTOU 300 
 #define DELAY_VERIFICACAO_PPPP 500
-
-int i = 0;
 
 Estrategia::Estrategia(){
   //
@@ -25,12 +24,13 @@ void Estrategia::start(){
 }
 
 void Estrategia::executar(){
+  caiu = false;
+
   toy.desligarLeds();
   start();
   
   //desviarObstaculo();
   seguirLinha();
-  //cor.testarVerde();
 }
 
 void Estrategia::seguirLinha(){
@@ -40,114 +40,31 @@ void Estrategia::seguirLinha(){
   
   } else if(refletancia.bbpb()) {
     setDireita();
-    motores.girarDir();
+    motores.giroLeveDir();
 
   } else if(refletancia.bpbb()) {
     setEsquerda();
-    motores.girarEsq();
+    motores.giroLeveEsq();
   
   } else if(refletancia.bbpp()) {
-    setDireita();
-    motores.miniParada();
-
-    //Alinhar
-    if(refletancia.bbbb()){
-      //Retornar a Linha
-      i = 0;
-      while(!(refletancia.sensorMaisDir('P'))){ 
-        i++;
-        if(i >= 1500){
-          break;
-        }
-        motores.voltarDevagar();
-      }  
-    }
-    //Andar um pouco
-    motores.miniParada();
-    motores.frenteCurva();
-    motores.miniParada();
-    
-    //Girar
-    i = 0;
-    while(!refletancia.sensorDir('P')){
-        i++;
-        if(i >= 1500){
-          break;
-        }
-        motores.giroCurvaDir();
-    }
-    i = 0;
+    robo.ligarLed(3);
     while(!refletancia.sensorEsq('P')){
-        i++;
-        if(i >= 1500){
-          break;
-        }
-        motores.giroCurvaDir();
+      motores.giroCurvaDir();
     }
-    i = 0;
-    while(!refletancia.bbbb()){
-      i++;
-      if(i >= 1500){
-        break;
-      }
+    while(!refletancia.sensorEsq('B')){
       motores.giroCurvaEsq();
     }
-    motores.voltarDevagar();
-    delay(125);
-    motores.miniParada();
 
-    
   } else if(refletancia.ppbb()) {
-    setEsquerda();
-    motores.miniParada();
-
-    //Alinhar
-    if(refletancia.bbbb()){
-      //Retornar A Linha
-      i = 0;
-      while(!(refletancia.sensorMaisDir('P'))){ 
-        i++;
-        if(i >= 1500){
-          break;
-        }
-        motores.voltarDevagar();
-      } 
-    }
-    //Andar um pouco
-    motores.miniParada();
-    motores.frenteCurva();
-    motores.miniParada();
-
-    //Girar
-    i = 0;
-    while(!refletancia.sensorEsq('P')){
-        i++;
-        if(i >= 1500){
-          break;
-        }
-        motores.giroCurvaEsq();
-    }
-    i = 0;
+    robo.ligarLed(3);
     while(!refletancia.sensorDir('P')){
-        i++;
-        if(i >= 1500){
-          break;
-        }
-        motores.giroCurvaEsq();
+      motores.giroCurvaEsq();
     }
-    i = 0;
-    while(!refletancia.bbbb()){
-      i++;
-      if(i >= 1500){
-        break;
-      }
+    while(!refletancia.sensorDir('B')){
       motores.giroCurvaDir();
     }
 
-    motores.voltarDevagar();
-    delay(125);
-    motores.miniParada();
-
+  
   }else if(refletancia.bbbp()){
     setDireita();
     motores.girarDir();

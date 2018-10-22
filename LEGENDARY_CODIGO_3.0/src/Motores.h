@@ -29,9 +29,14 @@ class Motores{
     void voltarDevagarEsq();
     void voltarDevagarDir();
 
+    //Movimentos Mais leves
+    void giroLeveEsq();
+    void giroLeveDir();
+
     //Movimentos Curva
     void giroCurvaEsq();
     void giroCurvaDir();
+    void voltarCurva();
 
     void giroCurvaRetornoEsq();
     void giroCurvaRetornoDir();

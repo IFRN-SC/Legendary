@@ -25,6 +25,8 @@ class Estrategia{
     SensoresDistancia distancia;
     Motores motores;
 
+    boolean caiu = false;
+
     boolean frente;
     boolean direita;
     boolean esquerda;
