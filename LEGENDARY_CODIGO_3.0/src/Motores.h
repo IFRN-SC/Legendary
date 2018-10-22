@@ -34,21 +34,28 @@ class Motores{
     void giroLeveDir();
 
     //Movimentos Curva
+    void miniFrenteCurva();
+    void voltarCurva();
     void giroCurvaEsq();
     void giroCurvaDir();
-    void voltarCurva();
+
+    //Movimentos para Alinhamento
+    void alinhamentoFrente();
+    void alinhamentoVoltar();
+    void alinhamentoVirarEsq();
+    void alinhamentoVirarDir();
+    void alinhamentoVoltarEsq();
+    void alinhamentoVoltarDir();
 
     //Movimentos de 90 Graus
     void girar90Esq();
     void girar90Dir();
 
-    //Movimentos para o Redutor
-    void acaoRedutor();
-
     //Movimentos Especificos
-    void frenteCurva();
     void miniParada();
+    void acaoRedutor();
     void pararAteBotao1();
+    void testarMovimentacao();
     
   private:
     Toy toy;
@@ -58,36 +65,4 @@ class Motores{
 
 /*
 COMANDOS PARA TESTES:
-  motores.frente();
-  delay(1000);
-  motores.parar();
-  delay(1000);
-  motores.voltar();
-  delay(1000);
-  motores.parar();
-  delay(1000);
-  motores.girarEsq();
-  delay(1000);
-  motores.parar();
-  delay(1000);
-  motores.girarDir();
-  delay(1000);
-  motores.parar();
-  delay(1000);
-  motores.virarEsq();
-  delay(1000);
-  motores.parar();
-  delay(1000);
-  motores.virarDir();
-  delay(1000);
-  motores.parar();
-  delay(1000);
-  motores.voltarEsq();
-  delay(1000);
-  motores.parar();
-  delay(1000);
-  motores.voltarDir();
-  delay(1000);
-  motores.parar();
-  delay(1000);
 */

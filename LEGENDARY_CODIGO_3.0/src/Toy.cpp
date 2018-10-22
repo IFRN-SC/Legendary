@@ -65,7 +65,7 @@ void Toy::ligarLeds() {
   robo.ligarLed(3);
 }
 
-static void Toy::desligarLeds() {
+void Toy::desligarLeds() {
   robo.desligarLed(1);
   robo.desligarLed(2);
   robo.desligarLed(3);

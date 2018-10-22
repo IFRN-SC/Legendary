@@ -46,7 +46,7 @@ void Estrategia::seguirLinha(){
     motores.giroLeveEsq();
   
   //Tem em Baixo
-  } else if(refletancia.bbpp()) {
+  } else if(refletancia.bbpp() || refletancia.bppp()) {
     motores.miniParada();
     if(!refletancia.bbpp()){
       int i = 0;
@@ -57,7 +57,8 @@ void Estrategia::seguirLinha(){
         }
       }
     }
-    motores.parar();
+    motores.miniParada();
+    
     if(cor.nn()){
       if(cor.nv()){
         robo.ligarLed(3);
@@ -66,16 +67,11 @@ void Estrategia::seguirLinha(){
     }
     motores.miniFrenteCurva();
     
-
-    while(!refletancia.sensorEsq('P')){
-      motores.giroCurvaDir();
-    }
-    while(refletancia.sensorEsq('P')){
-      motores.giroLeveEsq();
-    }
+    while(!refletancia.sensorEsq('P')){ motores.giroCurvaDir(); }
+    while(refletancia.sensorEsq('P')){ motores.giroLeveEsq(); }
 
   //Tem em Cima
-  } else if(refletancia.ppbb()) {
+  } else if(refletancia.ppbb() || refletancia.pppb()) {
     motores.miniParada();
     if(!refletancia.ppbb()){
       int i = 0;
@@ -87,7 +83,8 @@ void Estrategia::seguirLinha(){
         motores.voltarCurva();
       }
     }
-    motores.parar();
+    motores.miniParada();
+
     if(cor.nn()){
       if(cor.vn()){
         robo.ligarLed(3);
@@ -96,26 +93,14 @@ void Estrategia::seguirLinha(){
     }
     motores.miniFrenteCurva();
 
-    while(!refletancia.sensorDir('P')){
-      motores.giroCurvaEsq();
-    }
-    while(refletancia.sensorDir('P')){
-      motores.giroLeveDir();
-    }
+    while(!refletancia.sensorDir('P')){ motores.giroCurvaEsq(); }
+    while(refletancia.sensorDir('P')){ motores.giroLeveDir(); }
 
   }else if(refletancia.bbbp()){
     setDireita();
     motores.girarDir();
 
   }else if(refletancia.pbbb()){
-    setEsquerda();
-    motores.girarEsq();
-
-  }else if(refletancia.bppp()){
-    setDireita();
-    motores.girarDir();
-
-  }else if(refletancia.pppb()){
     setEsquerda();
     motores.girarEsq();
 
@@ -132,14 +117,6 @@ void Estrategia::seguirLinha(){
     motores.pararAteBotao1();
   }else{
     //Ação Anterior
-  }
-}
-
-void Estrategia::voltarAtePPPP(){
-  if(refletancia.bbbb()){
-    while(refletancia.pppp()){
-      motores.voltarDevagar(); 
-    }
   }
 }
 

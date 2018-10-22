@@ -1,6 +1,6 @@
 #include "Motores.h"
 
-#define DIFERENCA 3
+#define DIFERENCA 3 //Diferença de Nivel entre Motores Esquerdo e Direito
 
 //Valores dos Motores Normais
 #define DIR_POSITIVO 48
@@ -36,6 +36,12 @@
 #define DIR_NEGATIVO_GIRO_LEVE -28
 #define ESQ_POSITIVO_GIRO_LEVE (DIR_POSITIVO_GIRO_LEVE + DIFERENCA)
 #define ESQ_NEGATIVO_GIRO_LEVE (DIR_NEGATIVO_GIRO_LEVE - DIFERENCA)
+
+//Valores dos Motores para Alinhamento
+#define DIR_POSITIVO_ALINHAMENTO 15
+#define DIR_NEGATIVO_ALINHAMENTO -15
+#define ESQ_POSITIVO_ALINHAMENTO (DIR_POSITIVO_ALINHAMENTO + DIFERENCA)
+#define ESQ_NEGATIVO_ALINHAMENTO (DIR_NEGATIVO_ALINHAMENTO - DIFERENCA)
 
 //Valores dos Motores para girar 90 Graus
 #define DIR_POSITIVO_90_GRAUS 40
@@ -88,6 +94,14 @@ void Motores::giroCurvaDir(){robo.acionarMotores(ESQ_POSITIVO_CURVA, DIR_NEGATIV
 //Movimentos Leves
 void Motores::giroLeveEsq(){robo.acionarMotores(ESQ_NEGATIVO_GIRO_LEVE, DIR_POSITIVO_GIRO_LEVE);}
 void Motores::giroLeveDir(){robo.acionarMotores(ESQ_POSITIVO_GIRO_LEVE, DIR_NEGATIVO_GIRO_LEVE);}
+
+//Movimentos de Alinhamento
+void Motores::alinhamentoFrente(){robo.acionarMotores(ESQ_POSITIVO_ALINHAMENTO, DIR_POSITIVO_ALINHAMENTO);}
+void Motores::alinhamentoVoltar(){robo.acionarMotores(ESQ_NEGATIVO_ALINHAMENTO, DIR_NEGATIVO_ALINHAMENTO);}
+void Motores::alinhamentoVirarEsq(){robo.acionarMotores(0, DIR_POSITIVO_ALINHAMENTO);}
+void Motores::alinhamentoVirarDir(){robo.acionarMotores(ESQ_POSITIVO_ALINHAMENTO, 0);}
+void Motores::alinhamentoVoltarEsq(){robo.acionarMotores(ESQ_NEGATIVO_ALINHAMENTO, 0);}
+void Motores::alinhamentoVoltarDir(){robo.acionarMotores(0, DIR_NEGATIVO_ALINHAMENTO);}
 
 //Movimentos de 90 Graus
 void Motores::girar90Esq(){
