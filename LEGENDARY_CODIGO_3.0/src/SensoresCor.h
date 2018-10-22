@@ -9,8 +9,8 @@ class SensoresCor{
     SensoresCor();
     void start();
 
-    boolean verificarVerdeEsq();
-    boolean verificarVerdeDir();
+    boolean sensorEsq(char);
+    boolean sensorDir(char);
 
     boolean vv();
     boolean vn();

@@ -47,16 +47,26 @@ void Estrategia::seguirLinha(){
   
   //Tem em Baixo
   } else if(refletancia.bbpp()) {
-    robo.ligarLed(3);
     motores.miniParada();
-    if(refletancia.bbbb()){
-      robo.ligarLed(1);
-      while(refletancia.bbbb()){
-        motores.voltarCurva();
+    if(!refletancia.bbpp()){
+      int i = 0;
+      while(refletancia.sensorMaisDir('B')){
+        i++;
+        if(i >= 5000){
+          break;
+        }
       }
     }
-    motores.frenteCurva();
+    motores.parar();
+    if(cor.nn()){
+      if(cor.nv()){
+        robo.ligarLed(3);
+        motores.girar90Dir();
+      }
+    }
+    motores.miniFrenteCurva();
     
+
     while(!refletancia.sensorEsq('P')){
       motores.giroCurvaDir();
     }
@@ -67,13 +77,24 @@ void Estrategia::seguirLinha(){
   //Tem em Cima
   } else if(refletancia.ppbb()) {
     motores.miniParada();
-    if(refletancia.bbbb()){
-      robo.ligarLed(1);
-      while(refletancia.bbbb()){
+    if(!refletancia.ppbb()){
+      int i = 0;
+      while(refletancia.sensorMaisEsq('B')){
+        i++;
+        if(i >= 5000){
+          break;
+        }
         motores.voltarCurva();
       }
     }
-    motores.frenteCurva();
+    motores.parar();
+    if(cor.nn()){
+      if(cor.vn()){
+        robo.ligarLed(3);
+        motores.girar90Esq();
+      }
+    }
+    motores.miniFrenteCurva();
 
     while(!refletancia.sensorDir('P')){
       motores.giroCurvaEsq();
@@ -82,7 +103,6 @@ void Estrategia::seguirLinha(){
       motores.giroLeveDir();
     }
 
-  
   }else if(refletancia.bbbp()){
     setDireita();
     motores.girarDir();
@@ -100,12 +120,16 @@ void Estrategia::seguirLinha(){
     motores.girarEsq();
 
   }else if(refletancia.pppp()){
-    robo.ligarLed(1);
-    motores.parar();
+    //
     
   }else if(refletancia.bppb()){
-    robo.ligarLed(3);
-
+    motores.miniParada();
+    if(!refletancia.bppb()){
+      while(refletancia.sensorMaisDir('B') && refletancia.sensorMaisEsq('B')){
+        motores.voltarCurva();
+      }
+    }
+    motores.pararAteBotao1();
   }else{
     //Ação Anterior
   }

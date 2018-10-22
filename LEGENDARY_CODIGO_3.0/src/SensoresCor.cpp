@@ -7,69 +7,160 @@ SensoresCor::SensoresCor(){
 }
 
 void SensoresCor::testarVerde(){
-  if(verificarVerdeEsq()){
+  if(sensorEsq('V')){
     Serial.println("Esquerdo: É Verde");
   } else {
     Serial.println("Esquerdo: Não é Verde");
   }
-  delay(100);
-  if(verificarVerdeDir()){
+  if(sensorDir('V')){
     Serial.println("Direito: É Verde");
   } else {
     Serial.println("Direito: Não é Verde");
   }
-  if(verificarVerdeEsq() && verificarVerdeDir()){
+  if(sensorEsq('V') && sensorDir('V')){
     robo.ligarLed(3);
   } else {
     robo.desligarLed(3);
   }
   Serial.println("----------------------");
-  delay(100);
 }
 
+//Verde Verde
 boolean SensoresCor::vv(){
-  //
+  int verdeEncontrado = 0;
+  boolean resposta = false;
+  
+  for(int i = 0; i < 3; i++){
+    if((sensorEsq('V')) && (sensorDir('V'))){
+      verdeEncontrado++;
+    }
+  }
+  
+  if(verdeEncontrado > 1){
+    resposta = true;
+  } else {
+    resposta = false;
+  }
+
+  return resposta;
 }
 
 //Verde NãoVerde
 boolean SensoresCor::vn(){
+  int verdeEncontrado = 0;
   boolean resposta = false;
+  
+  for(int i = 0; i < 3; i++){
+    if((sensorEsq('V')) && (sensorDir('V') == false)){
+      verdeEncontrado++;
+    }
+  }
+
+  if(verdeEncontrado > 1){
+    resposta = true;
+  } else {
+    resposta = false;
+  }
+
   return resposta;
 }
 
+//NãoVerde Verde
 boolean SensoresCor::nv(){
-  //
+  int verdeEncontrado = 0;
+  boolean resposta = false;
+  
+  for(int i = 0; i < 3; i++){
+    if((sensorEsq('V') == false) && (sensorDir('V'))){
+      verdeEncontrado++;
+    }
+  }
+
+  if(verdeEncontrado > 1){
+    resposta = true;
+  } else {
+    resposta = false;
+  }
+
+  return resposta;
 }
 
 boolean SensoresCor::nn(){
-  //
-}
-
-boolean SensoresCor::verificarVerdeEsq(){
+  int verdeEncontrado = 0;
   boolean resposta = false;
-  valorSensorCorHSVEsq = robo.getHSVEsquerdo(); 
-
-  if((valorSensorCorHSVEsq.h < divisorBrancoVerdeEsq.h)){
-    if((valorSensorCorHSVEsq.v > divisorPretoVerdeEsq.v) && (valorSensorCorHSVEsq.v < divisorBrancoVerdeEsq.v)){
-      resposta = true;
+  
+  for(int i = 0; i < 3; i++){
+    if((sensorEsq('V') == false) && (sensorEsq('V') == false)){
+      verdeEncontrado++;
     }
-  }else{
+  }
+
+  if(verdeEncontrado > 1){
+    resposta = true;
+  } else {
     resposta = false;
   }
+  
   return resposta;
 }
 
-boolean SensoresCor::verificarVerdeDir(){
+boolean SensoresCor::sensorEsq(char entrada){
   boolean resposta = false;
-  valorSensorCorHSVDir = robo.getHSVDireito(); 
 
-  if((valorSensorCorHSVDir.h < divisorBrancoVerdeDir.h)){
-    if((valorSensorCorHSVDir.v > divisorPretoVerdeDir.v) && (valorSensorCorHSVDir.v < divisorBrancoVerdeDir.v)){
-      resposta = true;
-    }
-  }else{
-    resposta = false;
+  switch(entrada){
+    case 'V':
+      valorSensorCorHSVEsq = robo.getHSVEsquerdo(); 
+
+      if((valorSensorCorHSVEsq.h < divisorBrancoVerdeEsq.h)){
+        if((valorSensorCorHSVEsq.v > divisorPretoVerdeEsq.v) && (valorSensorCorHSVEsq.v < divisorBrancoVerdeEsq.v)){
+          resposta = true;
+        }
+      }else{
+        resposta = false;
+      }
+      break;
+
+    case 'B':
+      resposta = false;
+      break;
+
+    case 'P':
+      resposta = false;
+      break;
+
   }
+
+  delay(100);
+  return resposta;
+}
+
+boolean SensoresCor::sensorDir(char entrada){
+  boolean resposta = false;
+
+  switch(entrada){
+    case 'V':
+      valorSensorCorHSVDir = robo.getHSVDireito(); 
+
+      if((valorSensorCorHSVDir.h < divisorBrancoVerdeDir.h)){
+        if((valorSensorCorHSVDir.v > divisorPretoVerdeDir.v) && (valorSensorCorHSVDir.v < divisorBrancoVerdeDir.v)){
+          resposta = true;
+        }
+      }else{
+        resposta = false;
+      }
+      break;
+
+    case 'B':
+      resposta = false;
+      break;
+
+    case 'P':
+      resposta = false;
+      break;
+
+  }
+  
+  delay(100);
   return resposta;
 }
 

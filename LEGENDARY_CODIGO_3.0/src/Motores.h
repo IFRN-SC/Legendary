@@ -38,13 +38,6 @@ class Motores{
     void giroCurvaDir();
     void voltarCurva();
 
-    void giroCurvaRetornoEsq();
-    void giroCurvaRetornoDir();
-
-    //Movimentos Diferenciados
-    void giroDiferenteEsq();
-    void giroDiferenteDir();
-
     //Movimentos de 90 Graus
     void girar90Esq();
     void girar90Dir();
