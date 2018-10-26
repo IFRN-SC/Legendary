@@ -1,5 +1,4 @@
 #include <robo_hardware2.h>
-#include <Servo.h>
 #include "MenuIniciar.h"
 #include "Estrategia.h"
 #include "Calibragem.h"
@@ -19,7 +18,7 @@ void setup() {
 
 void loop() {
   if(menuIniciar.calibragem.voltarMenu){
-    Serial.println(F("Voltando para Menu Botões..."));
+    Serial.println(F("Votando para Menu Botões..."));
     menuIniciar.calibragem.voltarMenu = false;
     menuIniciar.menuBotoes();
   }

@@ -11,48 +11,43 @@ class Calibragem{
 
     void printDadosEEPROM();
     void iniciarCalibragem();
+    
   private:
     Toy toy;
     calibracao_dados val;
   
     //Variaveis para a Calibração dos Sensores de Refletancia
-    float mediaBrancoRefletanciaMaisEsq;
-    float mediaBrancoRefletanciaEsq;
-    float mediaBrancoRefletanciaDir;
-    float mediaBrancoRefletanciaMaisDir;
-    
-    float mediaPretoRefletanciaMaisEsq;
-    float mediaPretoRefletanciaEsq;
-    float mediaPretoRefletanciaDir;
-    float mediaPretoRefletanciaMaisDir;
+    int mediaBrancoRefletanciaMaisEsq;
+    int mediaBrancoRefletanciaEsq;
+    int mediaBrancoRefletanciaDir;
+    int mediaBrancoRefletanciaMaisDir;
 
-    float cinzaMaisDir;
-    float cinzaDir;
-    float cinzaEsq;
-    float cinzaMaisEsq;
+    double mediaSuperBrancoRefletanciaMaisEsq;
+    double mediaSuperBrancoRefletanciaEsq;
+    double mediaSuperBrancoRefletanciaDir;
+    double mediaSuperBrancoRefletanciaMaisDir;
+    
+    int mediaPretoRefletanciaMaisEsq;
+    int mediaPretoRefletanciaEsq;
+    int mediaPretoRefletanciaDir;
+    int mediaPretoRefletanciaMaisDir;
 
     //Variaveis para calibração dos Sensores de Cor
     HSV capturadorDeCorAuxEsqHSV;
     HSV capturadorDeCorAuxDirHSV;
-    
-    RGB capturadorDeCorAuxRGB;
 
     HSV mediaBrancoCorEsq;
     HSV mediaBrancoCorDir;
     HSV mediaPretoCorEsq;
     HSV mediaPretoCorDir;
     HSV mediaVerdeCorEsqHSV;
-    HSV mediaVerdeCorDirHSV;
-
-    RGB mediaVerdeCorEsqRGBmaior;
-    RGB mediaVerdeCorDirRGBmaior;
-    RGB mediaVerdeCorEsqRGBmenor;
-    RGB mediaVerdeCorDirRGBmenor; 
+    HSV mediaVerdeCorDirHSV; 
 
     //Métodos para calibração de Sensores
     void calibracaoPretoRefletancia();
     void calibracaoPretoCor();
     void calibracaoBrancoRefletanciaCor();
+    void calibracaoSuperBrancoRefletancia();
     void calibracaoVerdeEsq();
     void calibracaoVerdeDir();
 

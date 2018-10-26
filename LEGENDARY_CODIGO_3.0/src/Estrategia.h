@@ -2,9 +2,7 @@
 #define ESTRATEGIA_H
 
 #include <robo_hardware2.h>
-#include <Servo.h>
 #include "Toy.h"
-#include "Calibragem.h"
 #include "SensoresRefletancia.h"
 #include "SensoresCor.h"
 #include "SensoresDistancia.h"
@@ -15,10 +13,8 @@ class Estrategia{
     Estrategia();
     int ultimoMovimentoRegistrado();
     void executar();
-    void seguirLinhaRampa();
-    
+
   private:
-    Calibragem calibragem;
     Toy toy;
     SensoresRefletancia refletancia;
     SensoresCor cor;
@@ -35,12 +31,14 @@ class Estrategia{
     void start();
     void seguirLinha();
     void desviarObstaculo();
+    void seguirLinhaRampa();
+
+    boolean acaoVerde();
+    void alinharObstaculo();
 
     void setFrente();
     void setEsquerda();
     void setDireita();
-
-    void voltarAtePPPP();
 };
 
 #endif

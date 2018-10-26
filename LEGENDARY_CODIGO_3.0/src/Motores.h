@@ -51,12 +51,21 @@ class Motores{
     void girar90Esq();
     void girar90Dir();
 
+    //Movimentos para a Rampa
+    void frenteRampa();
+    void girarEsqRampa();
+    void girarDirRampa();
+    void pararRampa();
+
     //Movimentos Especificos
     void miniParada();
+    void miniGiroEsq();
+    void miniGiroDir();
     void acaoRedutor();
     void pararAteBotao1();
     void testarMovimentacao();
-    
+    void frear();
+
   private:
     Toy toy;
 };

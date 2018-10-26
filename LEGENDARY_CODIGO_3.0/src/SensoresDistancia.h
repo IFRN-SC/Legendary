@@ -2,8 +2,6 @@
 #define SENSORESDISTANCIA_H
 
 #include <robo_hardware2.h>
-#include <Servo.h>
-#include <Wire.h>
 
 #include "Motores.h"
 #include "SensoresRefletancia.h"
@@ -12,16 +10,20 @@
 class SensoresDistancia{
   public:
     SensoresDistancia();
-    boolean verificarObstaculo();
+    boolean isOnObstaculo();
+    boolean isTheRampa();
+    void ajustarDistanciaObstaculo();
+
+    float getMediaSonarEsq();
+    float getMediaSonarDir();
+
     void printSensoresDeDistancia();
 
   private:
     Motores motores;
     SensoresRefletancia refletancia;
 
-    float valorSensorFrontal;
-    float valorSensorLateralEsq;
-    float valorSensorLateralDir;
+    float valorLido;
       
 };
 

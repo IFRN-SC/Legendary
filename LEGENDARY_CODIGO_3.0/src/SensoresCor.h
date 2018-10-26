@@ -2,7 +2,6 @@
 #define SENSORESCOR_H
 
 #include <robo_hardware2.h>
-#include <Wire.h>
 
 class SensoresCor{
   public:

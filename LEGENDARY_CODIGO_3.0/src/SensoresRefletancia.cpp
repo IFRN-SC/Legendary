@@ -8,159 +8,105 @@ void SensoresRefletancia::start(){
   //
 }
 
-//Branco Branco Branco Branco (Andar para Frente)
-boolean SensoresRefletancia::bbbb(){  
-  boolean resposta;
-  if(sensorMaisEsq('B') && sensorEsq('B') && sensorDir('B') && sensorMaisDir('B')){
-    resposta = true;
-  }else{
-    if(isOnRedutor()){
-      motores.acaoRedutor();
-    }
-    resposta = false;
+void SensoresRefletancia::alinheComPPPP(){
+  boolean alinhamentoFinalizado = false;
+  while(alinhamentoFinalizado == false){
+      if(bbbb()){
+          motores.alinhamentoVoltar();
+      } else if(bbbp()){
+          motores.alinhamentoVoltarEsq();
+      } else if(pbbb()){
+          motores.alinhamentoVoltarDir();
+      } else if(bppb() || pppp()){
+          motores.parar();
+          alinhamentoFinalizado = true;
+          break;
+      }
   }
-  return resposta;
 }
+
+void SensoresRefletancia::alinheComPPNN(){
+  boolean alinhamentoFinalizado = false;
+  while(alinhamentoFinalizado == false){
+    if(bbbb()){
+      motores.alinhamentoVoltar();
+    } else if(sensorMaisEsq('P') && sensorEsq('B')){
+      motores.alinhamentoVoltarEsq();
+    } else if(sensorMaisEsq('B') && sensorEsq('P')){
+      motores.miniFrenteCurva();
+    } else if(sensorMaisEsq('P') && sensorEsq('P')){
+      alinhamentoFinalizado = true;
+      break;
+    }
+  }
+}
+
+void SensoresRefletancia::alinheComNNPP(){
+  boolean alinhamentoFinalizado = false;
+  while(alinhamentoFinalizado == false){
+    if(bbbb()){
+      motores.alinhamentoVoltar();
+    } else if(sensorDir('B') && sensorMaisDir('P')){
+      motores.alinhamentoVoltarDir();
+    } else if(sensorDir('P') && sensorMaisDir('B')){
+      motores.miniFrenteCurva();
+    } else if(sensorDir('P') && sensorMaisDir('P')){
+      alinhamentoFinalizado = true;
+      break;
+    }
+  }
+}
+
+void SensoresRefletancia::alinheComBBBB(){
+  boolean alinhamentoFinalizado = false;
+  while(alinhamentoFinalizado == false){
+      if(bpbb()){
+          motores.voltarDevagarEsq();
+      } else if(bbpb()){
+          motores.voltarDevagarDir();
+      } else if(bbbb()){
+          motores.voltarDevagarEsq();
+          alinhamentoFinalizado = true;
+          break;
+      }
+  }
+}
+
+//Branco Branco Branco Branco (Andar para Frente)
+boolean SensoresRefletancia::bbbb(){ return (sensorMaisEsq('B') && sensorEsq('B') && sensorDir('B') && sensorMaisDir('B'));}
 
 //Branco Preto Branco Branco (Direita)
-boolean SensoresRefletancia::bpbb(){
-  boolean resposta;
-  if(sensorMaisEsq('B') && sensorEsq('P') && sensorDir('B') && sensorMaisDir('B')){
-    resposta = true;
-  } else {
-    if(isOnRedutor()){
-      motores.acaoRedutor();
-    }
-    resposta = false;
-  }
-  return resposta;
-}
+boolean SensoresRefletancia::bpbb(){ return (sensorMaisEsq('B') && sensorEsq('P') && sensorDir('B') && sensorMaisDir('B'));}
 
 //Branco Branco Preto Branco (Esquerda)
-boolean SensoresRefletancia::bbpb(){
-  boolean resposta;
-  if(sensorMaisEsq('B') && sensorEsq('B') && sensorDir('P') && sensorMaisDir('B')){
-    resposta = true;
-  } else {
-    if(isOnRedutor()){
-      motores.acaoRedutor();
-    }
-    resposta = false;
-  }
-  return resposta;
-}
+boolean SensoresRefletancia::bbpb(){ return (sensorMaisEsq('B') && sensorEsq('B') && sensorDir('P') && sensorMaisDir('B'));}
 
 //Branco Preto Preto Branco (Continuar ação anterior)
-boolean SensoresRefletancia::bppb(){
-  boolean resposta;
-  if(sensorMaisEsq('B') && sensorEsq('P') && sensorDir('P') && sensorMaisDir('B')){
-    resposta = true;
-  }else{
-    if(isOnRedutor()){
-      motores.acaoRedutor();
-    }
-    resposta = false;
-  }
-  return resposta;
-}
+boolean SensoresRefletancia::bppb(){ return (sensorMaisEsq('B') && sensorEsq('P') && sensorDir('P') && sensorMaisDir('B'));}
 
 //Preto Branco Branco Branco
-boolean SensoresRefletancia::pbbb(){
-  boolean resposta;
-  if(sensorMaisEsq('P') && sensorEsq('B') && sensorDir('B') && sensorMaisDir('B')){
-    resposta = true;
-  } else {
-    if(isOnRedutor()){
-      motores.acaoRedutor();
-    }
-    resposta = false;
-  }
-  return resposta;
-}
+boolean SensoresRefletancia::pbbb(){ return (sensorMaisEsq('P') && sensorEsq('B') && sensorDir('B') && sensorMaisDir('B'));}
 
 //Branco Branco Branco Preto
-boolean SensoresRefletancia::bbbp(){
-  boolean resposta;
-  if(sensorMaisEsq('B') && sensorEsq('B') && sensorDir('B') && sensorMaisDir('P')){
-    resposta = true;
-  } else {
-    if(isOnRedutor()){
-      motores.acaoRedutor();
-    }
-    resposta = false;
-  }
-  return resposta;  
-}
+boolean SensoresRefletancia::bbbp(){ return (sensorMaisEsq('B') && sensorEsq('B') && sensorDir('B') && sensorMaisDir('P'));}
 
 //Branco Branco Preto Preto
-boolean SensoresRefletancia::bbpp(){
-  boolean resposta;
-  if(sensorMaisEsq('B') && sensorEsq('B') && sensorDir('P') && sensorMaisDir('P')){
-    resposta = true;
-  } else {
-    if(isOnRedutor()){
-      motores.acaoRedutor();
-    }
-    resposta = false;
-  }
-  return resposta;   
-}
+boolean SensoresRefletancia::bbpp(){ return (sensorMaisEsq('B') && sensorEsq('B') && sensorDir('P') && sensorMaisDir('P'));}
 
 //Preto Preto Branco Branco
-boolean SensoresRefletancia::ppbb(){
-  boolean resposta;
-  if(sensorMaisEsq('P') && sensorEsq('P') && sensorDir('B') && sensorMaisDir('B')){
-    resposta = true;
-  } else {
-    if(isOnRedutor()){
-      motores.acaoRedutor();
-    }
-    resposta = false;
-  }
-  return resposta; 
-}
+boolean SensoresRefletancia::ppbb(){ return (sensorMaisEsq('P') && sensorEsq('P') && sensorDir('B') && sensorMaisDir('B'));}
 
 //Branco Preto Preto Preto
-boolean SensoresRefletancia::bppp(){
-  boolean resposta;
-  if(sensorMaisEsq('B') && sensorEsq('P') && sensorDir('P') && sensorMaisDir('P')){
-    resposta = true;
-  } else {
-    if(isOnRedutor()){
-      motores.acaoRedutor();
-    }
-    resposta = false;
-  }
-  return resposta; 
-}
+boolean SensoresRefletancia::bppp(){ return (sensorMaisEsq('B') && sensorEsq('P') && sensorDir('P') && sensorMaisDir('P'));}
 
 //Preto Preto Preto Branco
-boolean SensoresRefletancia::pppb(){
-  boolean resposta;
-  if(sensorMaisEsq('P') && sensorEsq('P') && sensorDir('P') && sensorMaisDir('B')){
-    resposta = true;
-  } else {
-    if(isOnRedutor()){
-      motores.acaoRedutor();
-    }
-    resposta = false;
-  }
-  return resposta; 
-}
+boolean SensoresRefletancia::pppb(){ return (sensorMaisEsq('P') && sensorEsq('P') && sensorDir('P') && sensorMaisDir('B'));}
 
 //Preto Preto Preto Preto
-boolean SensoresRefletancia::pppp(){
-  boolean resposta;
-  if(sensorMaisEsq('P') && sensorEsq('P') && sensorDir('P') && sensorMaisDir('P')){
-    resposta = true;
-  } else {
-    if(isOnRedutor()){
-      motores.acaoRedutor();
-    }
-    resposta = false;
-  }
-  return resposta;
-}
+boolean SensoresRefletancia::pppp(){ return (sensorMaisEsq('P') && sensorEsq('P') && sensorDir('P') && sensorMaisDir('P'));}
+
+//Está vendo um Redutor?
+boolean SensoresRefletancia::isOnRedutor(){ return (robo.lerSensorLinhaMaisDir() > corteRedutorMaisDir); }
 
 //Verificador do Sensor Mais Esquerdo, 'P' para Preto e 'B' para Branco 
 boolean SensoresRefletancia::sensorMaisEsq(char entrada){
@@ -174,7 +120,7 @@ boolean SensoresRefletancia::sensorMaisEsq(char entrada){
       }
       break;   
     case 'B':
-      if((robo.lerSensorLinhaMaisEsq() > cinzaMaisEsq) && (robo.lerSensorLinhaMaisEsq() < corteRedutorMaisEsq)){
+      if((robo.lerSensorLinhaMaisEsq() > cinzaMaisEsq)){
         resposta = true;
       }else{
         resposta = false;
@@ -218,7 +164,7 @@ boolean SensoresRefletancia::sensorDir(char entrada){
       }
       break;   
     case 'B':
-      if((robo.lerSensorLinhaDir() > cinzaDir) && (robo.lerSensorLinhaDir() < corteRedutorDir)){
+      if(robo.lerSensorLinhaDir() > cinzaDir){
         resposta = true;
       }else{
         resposta = false;
@@ -240,7 +186,7 @@ boolean SensoresRefletancia::sensorMaisDir(char entrada){
       }
       break;   
     case 'B':
-      if((robo.lerSensorLinhaMaisDir() > cinzaMaisDir) && (robo.lerSensorLinhaMaisDir() < corteRedutorMaisDir)){
+      if(robo.lerSensorLinhaMaisDir() > cinzaMaisDir){
         resposta = true;
       }else{
         resposta = false;
@@ -250,30 +196,24 @@ boolean SensoresRefletancia::sensorMaisDir(char entrada){
   return resposta;
 }
 
-boolean SensoresRefletancia::isOnRedutor(){
-  boolean resposta = false;
-  if(robo.lerSensorLinhaEsq() > corteRedutorEsq){
-    resposta = true;
-  } else {
-    resposta = false;
-  }
-  return resposta;
-}
-
 void SensoresRefletancia::printSensoresDeRefletancia(){
-  valorSensorMaisEsq = robo.lerSensorLinhaMaisEsq();
-  valorSensorEsq = robo.lerSensorLinhaEsq();
-  valorSensorDir = robo.lerSensorLinhaDir();
-  valorSensorMaisDir = robo.lerSensorLinhaMaisDir();
             
   Serial.print(F("Sensores refletancia: +esq; esq; dir; +dir "));
-  Serial.print(valorSensorMaisEsq);
+  valorCapturado = robo.lerSensorLinhaMaisEsq();
+  Serial.print(valorCapturado);
   Serial.print(F("; "));
-  Serial.print(valorSensorEsq);
+  
+  valorCapturado = robo.lerSensorLinhaEsq();
+  Serial.print(valorCapturado);
+  
   Serial.print(F("; "));
-  Serial.print(valorSensorDir);
+  valorCapturado = robo.lerSensorLinhaDir();
+  
+  Serial.print(valorCapturado);
   Serial.print(F("; "));
-  Serial.println(valorSensorMaisDir);
+  
+  valorCapturado = robo.lerSensorLinhaMaisDir();
+  Serial.println(valorCapturado);
 }
 
 void SensoresRefletancia::pegarDadosEEPROM(){
@@ -283,4 +223,11 @@ void SensoresRefletancia::pegarDadosEEPROM(){
   cinzaEsq = val.refletanciaEsq;
   cinzaDir = val.refletanciaDir;
   cinzaMaisDir = val.refletanciaMaisDir;
+
+/*
+  corteRedutorMaisEsq = val.superBrancoMaisEsq;
+  corteRedutorEsq = val.superBrancoEsq;
+  corteRedutorDir = val.superBrancoDir;
+  corteRedutorMaisDir = val.superBrancoMaisDir;
+*/
 }

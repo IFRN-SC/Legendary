@@ -38,8 +38,12 @@ struct calibracao_dados{
 	int refletanciaEsq;
 	int refletanciaMaisEsq;
 	
-
+	double superBrancoMaisEsq;
+	double superBrancoEsq;
+	double superBrancoDir;
+	double superBrancoMaisDir;
 };
+
 class robo_hardware:private pinagem{
 private:
 

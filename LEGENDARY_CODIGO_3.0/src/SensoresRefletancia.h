@@ -5,13 +5,19 @@
 #include <Servo.h>
 #include <Wire.h>
 
-#include "Motores.h"
 #include "Calibragem.h"
+#include "Motores.h"
 
 class SensoresRefletancia{
   public:
     SensoresRefletancia();
     void start();
+    
+    void alinheComPPPP();
+    void alinheComBBBB();
+    void alinheComPPNN();
+    void alinheComNNPP();
+
     boolean bbbb();
     boolean bbbp();
     boolean pbbb();
@@ -34,20 +40,23 @@ class SensoresRefletancia{
     void printSensoresDeRefletancia();
     
   private:
-    Motores motores;
     Calibragem calibragem;
     calibracao_dados val;
+    Motores motores;
+
     void pegarDadosEEPROM();
 
-    float cinzaMaisEsq;
-    float cinzaEsq;
-    float cinzaDir;
-    float cinzaMaisDir;
+    int cinzaMaisEsq;
+    int cinzaEsq;
+    int cinzaDir;
+    int cinzaMaisDir;
 
-    float valorSensorMaisEsq;
-    float valorSensorEsq;
-    float valorSensorDir;
-    float valorSensorMaisDir;
+    double valorCapturado;
+
+    //double corteRedutorMaisEsq;
+    //double corteRedutorEsq;
+    //double corteRedutorDir;
+    //double corteRedutorMaisDir;
 
     float corteRedutorMaisEsq = 100;
     float corteRedutorEsq = 100;

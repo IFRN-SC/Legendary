@@ -30,7 +30,6 @@
 #define ESQ_POSITIVO_VOLTAR_CURVA (DIR_POSITIVO_VOLTAR_CURVA + DIFERENCA)
 #define ESQ_NEGATIVO_VOLTAR_CURVA (DIR_NEGATIVO_VOLTAR_CURVA - DIFERENCA)
 
-
 //Valores dos Motores para Movimentos Leves para voltar a linha
 #define DIR_POSITIVO_GIRO_LEVE 28
 #define DIR_NEGATIVO_GIRO_LEVE -28
@@ -38,8 +37,8 @@
 #define ESQ_NEGATIVO_GIRO_LEVE (DIR_NEGATIVO_GIRO_LEVE - DIFERENCA)
 
 //Valores dos Motores para Alinhamento
-#define DIR_POSITIVO_ALINHAMENTO 15
-#define DIR_NEGATIVO_ALINHAMENTO -15
+#define DIR_POSITIVO_ALINHAMENTO 16
+#define DIR_NEGATIVO_ALINHAMENTO -16
 #define ESQ_POSITIVO_ALINHAMENTO (DIR_POSITIVO_ALINHAMENTO + DIFERENCA)
 #define ESQ_NEGATIVO_ALINHAMENTO (DIR_NEGATIVO_ALINHAMENTO - DIFERENCA)
 
@@ -49,16 +48,24 @@
 #define ESQ_POSITIVO_90_GRAUS (DIR_POSITIVO_90_GRAUS + DIFERENCA)
 #define ESQ_NEGATIVO_90_GRAUS (DIR_NEGATIVO_90_GRAUS - DIFERENCA)
 
+//Valores dos Motores para a rampa
+#define DIR_POSITIVO_RAMPA 50
+#define DIR_SUPER_POSITIVO_RAMPA 60
+#define ESQ_POSITIVO_RAMPA (DIR_POSITIVO_RAMPA + DIFERENCA)
+#define ESQ_SUPER_POSITIVO_RAMPA (DIR_SUPER_POSITIVO_RAMPA + DIFERENCA)
+
+//frear
+#define DIR_FREIO -20
+#define ESQ_FREIO (DIR_FREIO - DIFERENCA)
+
 //Delays para Movimentos
 #define DELAY_90_GRAUS 260
 #define DELAY_MINI_FRENTE_CURVA 317
 #define DELAY_MINI_PARADA 300
+#define DELAY_MINI_GIRO 300
 #define DELAY_VERIFICACAO 350
 
-
-Motores::Motores(){
-  //
-}
+Motores::Motores(){}
 
 //Movimentos com Valores Padrões
 void Motores::frente(){robo.acionarMotores(ESQ_POSITIVO, DIR_POSITIVO);}
@@ -103,6 +110,7 @@ void Motores::alinhamentoVirarDir(){robo.acionarMotores(ESQ_POSITIVO_ALINHAMENTO
 void Motores::alinhamentoVoltarEsq(){robo.acionarMotores(ESQ_NEGATIVO_ALINHAMENTO, 0);}
 void Motores::alinhamentoVoltarDir(){robo.acionarMotores(0, DIR_NEGATIVO_ALINHAMENTO);}
 
+
 //Movimentos de 90 Graus
 void Motores::girar90Esq(){
   robo.acionarMotores(ESQ_NEGATIVO_90_GRAUS, DIR_POSITIVO_90_GRAUS);
@@ -113,27 +121,48 @@ void Motores::girar90Dir(){
   delay(DELAY_90_GRAUS);
 }
 
+//Movimentos Para a Rampa
+void Motores::frenteRampa(){ robo.acionarMotores(ESQ_POSITIVO_RAMPA, DIR_POSITIVO_RAMPA);}
+void Motores::girarEsqRampa(){ robo.acionarMotores(-20, DIR_POSITIVO_RAMPA);}
+void Motores::girarDirRampa(){ robo.acionarMotores(ESQ_POSITIVO_RAMPA, -20);}
+
+
 //Movimentos Especificos
 void Motores::miniParada(){
   robo.acionarMotores(0, 0);
   delay(DELAY_MINI_PARADA);
 }
+void Motores::miniGiroEsq(){
+  robo.acionarMotores(ESQ_NEGATIVO, DIR_POSITIVO);
+  delay(DELAY_MINI_GIRO);
+  miniParada();
+}
+void Motores::miniGiroDir(){
+  robo.acionarMotores(DIR_POSITIVO, ESQ_NEGATIVO);
+  delay(DELAY_MINI_GIRO);
+  miniParada();
+}
 
 void Motores::acaoRedutor(){
-  parar();
-  delay(500);
+  frear();
+  miniParada();
   voltarDevagar();
-  delay(500);
-  parar();
-  delay(500);
-  frente();
-  delay(1000);
+  delay(250);
+  miniParada();
+  robo.acionarMotores(70, 70);
+  delay(430);
 }
 
 void Motores::pararAteBotao1(){
   parar();
   while(!robo.botao1Pressionado()){}
   toy.ledsAlerta(3);
+}
+
+void Motores::frear(){
+  robo.acionarMotores(ESQ_FREIO, DIR_FREIO);
+  delay(50);
+  robo.acionarMotores(0, 0);
 }
 
 void Motores::testarMovimentacao(){

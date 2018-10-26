@@ -28,6 +28,12 @@ void Calibragem::iniciarCalibragem(){
   toy.ligarLed(2);
   calibracaoBrancoRefletanciaCor();
 
+  Serial.println(F("\nParte 3b: Coletar valores do Super Branco para os Sensores de Refletância no Redutor"));
+  Serial.println(F("Pressione o Botão 2 para Começar!"));
+  while(!robo.botao2Pressionado()){} //Espera Resposta do Botão 2
+  toy.ligarLed(2);
+  calibracaoSuperBrancoRefletancia();
+
   Serial.println(F("\nParte 4: Coletar valores do Verde para o Sensor de Cor Esquerdo"));
   Serial.println(F("Pressione o Botão 3 para Começar!"));
   while(!robo.botao3Pressionado()){} //Espera Resposta do Botão 3
@@ -42,7 +48,6 @@ void Calibragem::iniciarCalibragem(){
 
   Serial.println(F("\nRealizando Últimas Ações..."));
   delay(1000);
-  calcularCinzaRefletancia();
   guardarDadosEEPROM();
 
   Serial.println(F("\nCALIBRAÇÃO FINALIZADA!!"));
@@ -59,21 +64,21 @@ void Calibragem::calibracaoPretoRefletancia(){
   Serial.println(F("\n  | Coletando Dados |"));
   Serial.print  (F("  |-------"));
 
+  mediaPretoRefletanciaMaisEsq = robo.lerSensorLinhaMaisEsq();
+  mediaPretoRefletanciaEsq = robo.lerSensorLinhaEsq();
+  mediaPretoRefletanciaDir = robo.lerSensorLinhaDir();
+  mediaPretoRefletanciaMaisDir = robo.lerSensorLinhaMaisDir();
+
   for (i = 0; i < 10; i++) {
-    mediaPretoRefletanciaMaisEsq = mediaPretoRefletanciaMaisEsq + robo.lerSensorLinhaMaisEsq();
-    mediaPretoRefletanciaEsq = mediaPretoRefletanciaEsq + robo.lerSensorLinhaEsq();
-    mediaPretoRefletanciaDir = mediaPretoRefletanciaDir + robo.lerSensorLinhaDir();
-    mediaPretoRefletanciaMaisDir = mediaPretoRefletanciaMaisDir + robo.lerSensorLinhaMaisDir();
+    mediaPretoRefletanciaMaisEsq = (mediaPretoRefletanciaMaisEsq + robo.lerSensorLinhaMaisEsq()) / 2;
+    mediaPretoRefletanciaEsq = (mediaPretoRefletanciaEsq + robo.lerSensorLinhaEsq()) / 2;
+    mediaPretoRefletanciaDir = (mediaPretoRefletanciaDir + robo.lerSensorLinhaDir()) / 2;
+    mediaPretoRefletanciaMaisDir = (mediaPretoRefletanciaMaisDir + robo.lerSensorLinhaMaisDir()) / 2;
     delay(DELAY_INTERVALO_DE_CAPTURA);
     Serial.print(F("-"));
   }
   Serial.println(F("|"));
   Serial.println(F("  |    Concluido    |"));
-  
-  mediaPretoRefletanciaMaisEsq = mediaPretoRefletanciaMaisEsq / 10;
-  mediaPretoRefletanciaEsq = mediaPretoRefletanciaEsq / 10;
-  mediaPretoRefletanciaDir = mediaPretoRefletanciaDir / 10;
-  mediaPretoRefletanciaMaisDir = mediaPretoRefletanciaMaisDir / 10;
   
   toy.ledAlerta(1, 10, 50);
 
@@ -142,7 +147,12 @@ void Calibragem::calibracaoBrancoRefletanciaCor(){
   int i;
   Serial.println(F("\n  | Coletando Dados |"));
   Serial.print  (F("  |-------"));
-  
+
+  mediaBrancoRefletanciaMaisEsq = robo.lerSensorLinhaMaisEsq();
+  mediaBrancoRefletanciaEsq = robo.lerSensorLinhaEsq();
+  mediaBrancoRefletanciaDir = robo.lerSensorLinhaDir();
+  mediaBrancoRefletanciaMaisDir = robo.lerSensorLinhaMaisDir();
+
   capturadorDeCorAuxEsqHSV = robo.getHSVEsquerdo();
   capturadorDeCorAuxDirHSV = robo.getHSVDireito();
   mediaBrancoCorEsq.h = capturadorDeCorAuxEsqHSV.h; 
@@ -153,10 +163,10 @@ void Calibragem::calibracaoBrancoRefletanciaCor(){
   mediaBrancoCorDir.v = capturadorDeCorAuxDirHSV.v;
   
   for (i = 0; i < 10; i++) {
-    mediaBrancoRefletanciaMaisEsq = mediaBrancoRefletanciaMaisEsq + robo.lerSensorLinhaMaisEsq();
-    mediaBrancoRefletanciaEsq = mediaBrancoRefletanciaEsq + robo.lerSensorLinhaEsq();
-    mediaBrancoRefletanciaDir = mediaBrancoRefletanciaDir + robo.lerSensorLinhaDir();
-    mediaBrancoRefletanciaMaisDir = mediaBrancoRefletanciaMaisDir + robo.lerSensorLinhaMaisDir();
+    mediaBrancoRefletanciaMaisEsq = (mediaBrancoRefletanciaMaisEsq + robo.lerSensorLinhaMaisEsq()) / 2;
+    mediaBrancoRefletanciaEsq = (mediaBrancoRefletanciaEsq + robo.lerSensorLinhaEsq()) / 2;
+    mediaBrancoRefletanciaDir = (mediaBrancoRefletanciaDir + robo.lerSensorLinhaDir()) / 2;
+    mediaBrancoRefletanciaMaisDir = (mediaBrancoRefletanciaMaisDir + robo.lerSensorLinhaMaisDir()) / 2;
     
     capturadorDeCorAuxEsqHSV = robo.getHSVEsquerdo();
     capturadorDeCorAuxDirHSV = robo.getHSVDireito();
@@ -172,11 +182,6 @@ void Calibragem::calibracaoBrancoRefletanciaCor(){
   }
   Serial.println(F("|"));
   Serial.println(F("  |    Concluido    |"));
-  
-  mediaBrancoRefletanciaMaisEsq = mediaBrancoRefletanciaMaisEsq / 10;
-  mediaBrancoRefletanciaEsq = mediaBrancoRefletanciaEsq / 10;
-  mediaBrancoRefletanciaDir = mediaBrancoRefletanciaDir / 10;
-  mediaBrancoRefletanciaMaisDir = mediaBrancoRefletanciaMaisDir / 10;
 
   toy.ledAlerta(2, 10, 50);
 
@@ -207,6 +212,42 @@ void Calibragem::calibracaoBrancoRefletanciaCor(){
   Serial.println(mediaBrancoCorDir.v);
 }
 
+void Calibragem::calibracaoSuperBrancoRefletancia(){  
+  int i;
+  Serial.println(F("\n  | Coletando Dados |"));
+  Serial.print  (F("  |-------"));
+
+  mediaSuperBrancoRefletanciaMaisEsq = robo.lerSensorLinhaMaisEsq();
+  mediaSuperBrancoRefletanciaEsq = robo.lerSensorLinhaEsq();
+  mediaSuperBrancoRefletanciaDir = robo.lerSensorLinhaDir();
+  mediaSuperBrancoRefletanciaMaisDir = robo.lerSensorLinhaMaisDir();
+
+  for (i = 0; i < 10; i++) {
+    mediaSuperBrancoRefletanciaMaisEsq = (mediaSuperBrancoRefletanciaMaisEsq + robo.lerSensorLinhaMaisEsq()) / 2;
+    mediaSuperBrancoRefletanciaEsq = (mediaSuperBrancoRefletanciaEsq + robo.lerSensorLinhaEsq()) / 2;
+    mediaSuperBrancoRefletanciaDir = (mediaSuperBrancoRefletanciaDir + robo.lerSensorLinhaDir()) / 2;
+    mediaSuperBrancoRefletanciaMaisDir = (mediaSuperBrancoRefletanciaMaisDir + robo.lerSensorLinhaMaisDir()) / 2;
+    
+    delay(DELAY_INTERVALO_DE_CAPTURA);
+    Serial.print(F("-"));
+  }
+  Serial.println(F("|"));
+  Serial.println(F("  |    Concluido    |"));
+
+  toy.ledAlerta(2, 10, 50);
+
+  Serial.println(F("\n  Valores do Super Brancos Capturados dos Sensores de Refletância: "));
+  Serial.println(F("  +esq    esq     dir     +dir"));
+  Serial.print  (F("  "));
+  Serial.print  (mediaSuperBrancoRefletanciaMaisEsq);
+  Serial.print  (F("   "));
+  Serial.print  (mediaSuperBrancoRefletanciaEsq);
+  Serial.print  (F("   "));
+  Serial.print  (mediaSuperBrancoRefletanciaDir);
+  Serial.print  (F("   "));
+  Serial.println(mediaSuperBrancoRefletanciaMaisDir);
+}
+
 
 void Calibragem::calibracaoVerdeEsq(){
   int i;
@@ -217,37 +258,13 @@ void Calibragem::calibracaoVerdeEsq(){
   mediaVerdeCorEsqHSV.h = capturadorDeCorAuxEsqHSV.h;
   mediaVerdeCorEsqHSV.s = capturadorDeCorAuxEsqHSV.s;
   mediaVerdeCorEsqHSV.v = capturadorDeCorAuxEsqHSV.v;
-  
-  mediaVerdeCorEsqRGBmaior = robo.getRGBEsquerdo();
-  mediaVerdeCorEsqRGBmenor = robo.getRGBEsquerdo();
 
   for (i = 0; i < 10; i++) {
     capturadorDeCorAuxEsqHSV = robo.getHSVEsquerdo();
     mediaVerdeCorEsqHSV.h = (mediaVerdeCorEsqHSV.h + capturadorDeCorAuxEsqHSV.h) / 2; 
     mediaVerdeCorEsqHSV.s = (mediaVerdeCorEsqHSV.s + capturadorDeCorAuxEsqHSV.s) / 2; 
     mediaVerdeCorEsqHSV.v = (mediaVerdeCorEsqHSV.v + capturadorDeCorAuxEsqHSV.v) / 2;   
-
-    capturadorDeCorAuxRGB = robo.getRGBEsquerdo(); 
-    if(capturadorDeCorAuxRGB.vermelho > mediaVerdeCorEsqRGBmaior.vermelho){
-      mediaVerdeCorEsqRGBmaior.vermelho = capturadorDeCorAuxRGB.vermelho; 
-    }
-    if(capturadorDeCorAuxRGB.verde > mediaVerdeCorEsqRGBmaior.verde){
-      mediaVerdeCorEsqRGBmaior.verde = capturadorDeCorAuxRGB.verde;
-    }
-    if(capturadorDeCorAuxRGB.azul > mediaVerdeCorEsqRGBmaior.azul){
-      mediaVerdeCorEsqRGBmaior.azul = capturadorDeCorAuxRGB.azul;
-    }
-
-    if(capturadorDeCorAuxRGB.vermelho < mediaVerdeCorEsqRGBmenor.vermelho){
-      mediaVerdeCorEsqRGBmenor.vermelho = capturadorDeCorAuxRGB.vermelho; 
-    }
-    if(capturadorDeCorAuxRGB.verde < mediaVerdeCorEsqRGBmenor.verde){
-      mediaVerdeCorEsqRGBmenor.verde = capturadorDeCorAuxRGB.verde;
-    }
-    if(capturadorDeCorAuxRGB.azul < mediaVerdeCorEsqRGBmenor.azul){
-      mediaVerdeCorEsqRGBmenor.azul = capturadorDeCorAuxRGB.azul;
-    }
-
+    
     delay(DELAY_INTERVALO_DE_CAPTURA);
     Serial.print(F("-"));
   } 
@@ -266,6 +283,8 @@ void Calibragem::calibracaoVerdeEsq(){
 }
 
 
+
+
 void Calibragem::calibracaoVerdeDir(){
   int i;
   Serial.println(F("\n  | Coletando Dados |"));
@@ -275,36 +294,12 @@ void Calibragem::calibracaoVerdeDir(){
   mediaVerdeCorDirHSV.h = capturadorDeCorAuxDirHSV.h;
   mediaVerdeCorDirHSV.s = capturadorDeCorAuxDirHSV.s;
   mediaVerdeCorDirHSV.v = capturadorDeCorAuxDirHSV.v;
-  
-  mediaVerdeCorDirRGBmaior = robo.getRGBDireito();
-  mediaVerdeCorDirRGBmenor = robo.getRGBDireito();
 
   for (i = 0; i < 10; i++) {
     capturadorDeCorAuxDirHSV = robo.getHSVDireito();
     mediaVerdeCorDirHSV.h = (mediaVerdeCorDirHSV.h + capturadorDeCorAuxDirHSV.h) / 2;
     mediaVerdeCorDirHSV.s = (mediaVerdeCorDirHSV.s + capturadorDeCorAuxDirHSV.s) / 2;      
-    mediaVerdeCorDirHSV.v = (mediaVerdeCorDirHSV.v + capturadorDeCorAuxDirHSV.v) / 2;   
-    
-    capturadorDeCorAuxRGB = robo.getRGBDireito(); 
-    if(capturadorDeCorAuxRGB.vermelho > mediaVerdeCorDirRGBmaior.vermelho){
-      mediaVerdeCorDirRGBmaior.vermelho = capturadorDeCorAuxRGB.vermelho; 
-    }
-    if(capturadorDeCorAuxRGB.verde > mediaVerdeCorDirRGBmaior.verde){
-      mediaVerdeCorDirRGBmaior.verde = capturadorDeCorAuxRGB.verde;
-    }
-    if(capturadorDeCorAuxRGB.azul > mediaVerdeCorDirRGBmaior.azul){
-      mediaVerdeCorDirRGBmaior.azul = capturadorDeCorAuxRGB.azul;
-    }
-
-    if(capturadorDeCorAuxRGB.vermelho < mediaVerdeCorDirRGBmenor.vermelho){
-      mediaVerdeCorDirRGBmenor.vermelho = capturadorDeCorAuxRGB.vermelho; 
-    }
-    if(capturadorDeCorAuxRGB.verde < mediaVerdeCorDirRGBmenor.verde){
-      mediaVerdeCorDirRGBmenor.verde = capturadorDeCorAuxRGB.verde;
-    }
-    if(capturadorDeCorAuxRGB.azul < mediaVerdeCorDirRGBmenor.azul){
-      mediaVerdeCorDirRGBmenor.azul = capturadorDeCorAuxRGB.azul;
-    }
+    mediaVerdeCorDirHSV.v = (mediaVerdeCorDirHSV.v + capturadorDeCorAuxDirHSV.v) / 2;       
 
     delay(DELAY_INTERVALO_DE_CAPTURA);
     Serial.print(F("-"));
@@ -323,49 +318,18 @@ void Calibragem::calibracaoVerdeDir(){
   Serial.println(mediaVerdeCorDirHSV.v);
 }
 
-
-void Calibragem::calcularCinzaRefletancia(){
-  //Calculando Cinza
-  
-  cinzaMaisEsq = (mediaPretoRefletanciaMaisEsq + mediaBrancoRefletanciaMaisEsq)/2; 
-  cinzaEsq = (mediaPretoRefletanciaEsq + mediaBrancoRefletanciaEsq)/2;
-  cinzaDir = (mediaPretoRefletanciaDir + mediaBrancoRefletanciaDir)/2;
-  cinzaMaisDir = (mediaPretoRefletanciaMaisDir + mediaBrancoRefletanciaMaisDir)/2; 
-
-  Serial.println(F("\n  Valores Calculados dos sensores de refletância: "));
-  Serial.println(F("   +esq    esq     dir     +dir"));
-  Serial.print  (F("   "));
-  Serial.print  (cinzaMaisEsq);
-  Serial.print  (F("   "));
-  Serial.print  (cinzaEsq);
-  Serial.print  (F("   "));
-  Serial.print  (cinzaDir);
-  Serial.print  (F("   "));
-  Serial.println(cinzaMaisDir);
-
-  Serial.println(F("\n  Valores Calculados dos sensores de Cor: "));
-  Serial.println(F("  esq            dir   "));
-  Serial.print  (F("  H: "));
-  Serial.print  (mediaPretoCorEsq.h);
-  Serial.print  (F("      H: "));
-  Serial.println(mediaPretoCorDir.h);
-  Serial.print  (F("  S: "));
-  Serial.print  (mediaPretoCorEsq.s);
-  Serial.print  (F("        S: "));
-  Serial.println(mediaPretoCorDir.s);
-  Serial.print  (F("  V: "));
-  Serial.print  (mediaPretoCorEsq.v);
-  Serial.print  (F("      V: "));
-  Serial.println(mediaPretoCorDir.v);
-}
-
-
 void Calibragem::guardarDadosEEPROM(){
   //Dados Refletância
-  val.refletanciaMaisEsq = cinzaMaisEsq;
-  val.refletanciaEsq = cinzaEsq;
-  val.refletanciaDir = cinzaDir;
-  val.refletanciaMaisDir = cinzaMaisDir;
+  
+  val.refletanciaMaisEsq = (mediaPretoRefletanciaMaisEsq + mediaBrancoRefletanciaMaisEsq)/2;
+  val.refletanciaEsq = (mediaPretoRefletanciaEsq + mediaBrancoRefletanciaEsq)/2;
+  val.refletanciaDir = (mediaPretoRefletanciaDir + mediaBrancoRefletanciaDir)/2;
+  val.refletanciaMaisDir = (mediaPretoRefletanciaMaisDir + mediaBrancoRefletanciaMaisDir)/2; 
+
+  val.superBrancoMaisEsq = mediaSuperBrancoRefletanciaMaisEsq;
+  val.superBrancoEsq = mediaSuperBrancoRefletanciaEsq;
+  val.superBrancoDir = mediaSuperBrancoRefletanciaDir;
+  val.superBrancoMaisDir = mediaSuperBrancoRefletanciaMaisDir;
 
   //Dados Cor
   val.pretoEsq.h = mediaPretoCorEsq.h;
@@ -402,7 +366,7 @@ void Calibragem::printDadosEEPROM(){
   Serial.println(F("-----------------------------------"));
   Serial.println(F("Dados da Última Calibração (EEPROM)"));
   Serial.println(F("-----------------------------------"));
-  Serial.println(F("  Sensores de Refletância:"));
+  Serial.println(F("  Sensores de Refletância (Divisor-BP):"));
   Serial.println(F("  +esq    esq     dir     +dir"));
   Serial.print  (F("  "));
   Serial.print  (val.refletanciaMaisEsq);
@@ -412,6 +376,17 @@ void Calibragem::printDadosEEPROM(){
   Serial.print  (val.refletanciaDir);
   Serial.print  (F("      "));
   Serial.println(val.refletanciaMaisDir);
+
+  Serial.println(F("\n  Sensores de Refletância (Super Branco):"));
+  Serial.println(F("  +esq    esq     dir     +dir"));
+  Serial.print  (F("  "));
+  Serial.print  (val.superBrancoMaisEsq);
+  Serial.print  (F("      "));
+  Serial.print  (val.superBrancoEsq);
+  Serial.print  (F("      "));
+  Serial.print  (val.superBrancoDir);
+  Serial.print  (F("      "));
+  Serial.println(val.superBrancoMaisDir);
 
   Serial.println(F("\n  Sensores de Cor (Preto): "));
   Serial.println(F("  esq            dir   "));

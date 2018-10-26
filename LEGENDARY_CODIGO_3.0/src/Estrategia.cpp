@@ -16,23 +16,21 @@ Estrategia::Estrategia(){
   //
 }
 
-void Estrategia::start(){
-  if(dadosCapturados == false){
-    refletancia.start();
-  }
-  dadosCapturados = true;
-}
-
 void Estrategia::executar(){
   caiu = false;
 
   toy.desligarLeds();
   start();
   //desviarObstaculo();
-  seguirLinha();
+  if(distancia.isTheRampa()){
+    seguirLinhaRampa();  
+  } else {
+    seguirLinha();
+  }
 }
 
 void Estrategia::seguirLinha(){
+  robo.ligarLed(1);
   if(refletancia.bbbb()){
     setFrente();
     motores.frente();
@@ -47,52 +45,49 @@ void Estrategia::seguirLinha(){
   
   //Tem em Baixo
   } else if(refletancia.bbpp() || refletancia.bppp()) {
-    motores.miniParada();
-    if(!refletancia.bbpp()){
-      int i = 0;
-      while(refletancia.sensorMaisDir('B')){
-        i++;
-        if(i >= 5000){
-          break;
-        }
-      }
-    }
+    motores.frear();
     motores.miniParada();
     
-    if(cor.nn()){
-      if(cor.nv()){
-        robo.ligarLed(3);
-        motores.girar90Dir();
-      }
-    }
-    motores.miniFrenteCurva();
+    boolean acaoNaoTerminada = false;
     
-    while(!refletancia.sensorEsq('P')){ motores.giroCurvaDir(); }
-    while(refletancia.sensorEsq('P')){ motores.giroLeveEsq(); }
-
-  //Tem em Cima
-  } else if(refletancia.ppbb() || refletancia.pppb()) {
-    motores.miniParada();
-    if(!refletancia.ppbb()){
+    if(!refletancia.bbpp() || !refletancia.bppp()){
       int i = 0;
-      while(refletancia.sensorMaisEsq('B')){
+      while(refletancia.sensorDir('B') || refletancia.sensorMaisDir('B')){
         i++;
-        if(i >= 5000){
+        if(i >= 6000){
+          acaoNaoTerminada = true;
           break;
         }
         motores.voltarCurva();
       }
     }
     motores.miniParada();
+  
+    motores.miniFrenteCurva();
+    while(!refletancia.sensorEsq('P')){ motores.giroCurvaDir(); }
+    while(refletancia.sensorEsq('P')){ motores.giroLeveEsq(); }
 
-    if(cor.nn()){
-      if(cor.vn()){
-        robo.ligarLed(3);
-        motores.girar90Esq();
+  //Tem em Cima
+  } else if(refletancia.ppbb() || refletancia.pppb()) {
+    motores.frear();
+    motores.miniParada();
+    
+    boolean acaoNaoTerminada = false;
+    
+    if(!refletancia.ppbb() || !refletancia.pppb()){
+      int i = 0;
+      while(refletancia.sensorMaisEsq('B') || refletancia.sensorEsq('B')){
+        i++;
+        if(i >= 6000){
+          acaoNaoTerminada = true;
+          break;
+        }
+        motores.voltarCurva();
       }
     }
+    motores.miniParada();
+    
     motores.miniFrenteCurva();
-
     while(!refletancia.sensorDir('P')){ motores.giroCurvaEsq(); }
     while(refletancia.sensorDir('P')){ motores.giroLeveDir(); }
 
@@ -105,23 +100,55 @@ void Estrategia::seguirLinha(){
     motores.girarEsq();
 
   }else if(refletancia.pppp()){
-    //
+    motores.miniParada();
+    refletancia.alinheComPPPP();
+    //if(acaoVerde()){
+      //
+    //} else {
+      motores.miniFrenteCurva();
+    //}
     
   }else if(refletancia.bppb()){
-    motores.miniParada();
-    if(!refletancia.bppb()){
-      while(refletancia.sensorMaisDir('B') && refletancia.sensorMaisEsq('B')){
-        motores.voltarCurva();
-      }
+    if(ultimoMovimentoRegistrado() == -1){ //Esquerda
+    
+    } else if(ultimoMovimentoRegistrado() == 0){ //Frente
+
+    } else if(ultimoMovimentoRegistrado() == 1){ //Direita
+
     }
-    motores.pararAteBotao1();
-  }else{
-    //Ação Anterior
   }
 }
 
+boolean Estrategia::acaoVerde(){
+  boolean resposta = false;
+  
+  if(cor.nn()){
+    resposta = false;
+  
+  } else if(cor.vn()){
+    resposta = true;
+    robo.ligarLed(3);
+    motores.miniFrenteCurva();
+    motores.girar90Esq();
+  
+  } else if(cor.nv()){
+    resposta = true;
+    motores.miniFrenteCurva();
+    motores.girar90Dir();
+  
+  } else if(cor.vv()){
+    resposta = true;
+    robo.ligarLed(3);
+    motores.miniFrenteCurva();
+    motores.girar90Esq();
+    motores.girar90Esq();
+  }
+  
+  return resposta;
+}
+
 void Estrategia::desviarObstaculo(){
-  if(distancia.verificarObstaculo()){
+  if(distancia.isOnObstaculo()){
     delay(DELAY_PAUSA_MOVIMENTO);
       motores.girar90Dir();
       motores.parar();
@@ -157,6 +184,37 @@ void Estrategia::desviarObstaculo(){
         motores.girarDevagarDir();
       }
   }
+}
+
+void Estrategia::seguirLinhaRampa(){
+  if(distancia.isTheRampa()){
+    if(refletancia.bbbb()){
+      motores.frenteRampa();
+
+    } else if(refletancia.bpbb() || refletancia.pbbb()){
+      motores.girarEsqRampa();
+
+    } else if(refletancia.bbpb() || refletancia.bbbp()){
+      motores.girarDirRampa();
+
+    } else {
+      motores.frenteRampa();
+      delay(500);
+    }
+  }
+}
+
+void Estrategia::alinharObstaculo(){
+    refletancia.alinheComBBBB();
+    motores.girar90Dir();
+    refletancia.alinheComPPPP();
+}
+
+void Estrategia::start(){
+  if(dadosCapturados == false){
+    refletancia.start();
+  }
+  dadosCapturados = true;
 }
 
 //Métodos de Registro de Movimentos

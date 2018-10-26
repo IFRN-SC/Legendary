@@ -9,24 +9,22 @@
 #include "SensoresRefletancia.h"
 #include "SensoresCor.h"
 #include "SensoresDistancia.h"
-#include "SensorIMU.h"
 
 class MenuIniciar{
   public:
     Calibragem calibragem;
-    MenuIniciar();
     
+    MenuIniciar();
     void menuBotoes();
-  
+
   private:
     void menuSerial();
-    
+    void avisoLoop();
+
     Toy toy;
-    calibracao_dados val;
     SensoresRefletancia refletancia;
     SensoresCor cor;
     SensoresDistancia sonar;
-    SensorIMU imu;
     Estrategia estrategia;
 };
 

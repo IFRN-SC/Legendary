@@ -6,128 +6,35 @@ SensoresCor::SensoresCor(){
   calcularDivisores();
 }
 
-void SensoresCor::testarVerde(){
-  if(sensorEsq('V')){
-    Serial.println("Esquerdo: É Verde");
-  } else {
-    Serial.println("Esquerdo: Não é Verde");
-  }
-  if(sensorDir('V')){
-    Serial.println("Direito: É Verde");
-  } else {
-    Serial.println("Direito: Não é Verde");
-  }
-  if(sensorEsq('V') && sensorDir('V')){
-    robo.ligarLed(3);
-  } else {
-    robo.desligarLed(3);
-  }
-  Serial.println("----------------------");
-}
-
 //Verde Verde
-boolean SensoresCor::vv(){
-  int verdeEncontrado = 0;
-  boolean resposta = false;
-  
-  for(int i = 0; i < 3; i++){
-    if((sensorEsq('V')) && (sensorDir('V'))){
-      verdeEncontrado++;
-    }
-  }
-  
-  if(verdeEncontrado > 1){
-    resposta = true;
-  } else {
-    resposta = false;
-  }
-
-  return resposta;
-}
+boolean SensoresCor::vv(){ return (sensorEsq('V')) && (sensorDir('V'));}
 
 //Verde NãoVerde
-boolean SensoresCor::vn(){
-  int verdeEncontrado = 0;
-  boolean resposta = false;
-  
-  for(int i = 0; i < 3; i++){
-    if((sensorEsq('V')) && (sensorDir('V') == false)){
-      verdeEncontrado++;
-    }
-  }
-
-  if(verdeEncontrado > 1){
-    resposta = true;
-  } else {
-    resposta = false;
-  }
-
-  return resposta;
-}
+boolean SensoresCor::vn(){ return (sensorEsq('V')) && (sensorDir('V') == false);}
 
 //NãoVerde Verde
-boolean SensoresCor::nv(){
-  int verdeEncontrado = 0;
-  boolean resposta = false;
-  
-  for(int i = 0; i < 3; i++){
-    if((sensorEsq('V') == false) && (sensorDir('V'))){
-      verdeEncontrado++;
-    }
-  }
+boolean SensoresCor::nv(){ return (sensorEsq('V') == false) && (sensorDir('V'));}
 
-  if(verdeEncontrado > 1){
-    resposta = true;
-  } else {
-    resposta = false;
-  }
+//NãoVerde NãoVerde
+boolean SensoresCor::nn(){ return (sensorEsq('V') == false) && (sensorDir('V') == false);}
 
-  return resposta;
-}
-
-boolean SensoresCor::nn(){
-  int verdeEncontrado = 0;
-  boolean resposta = false;
-  
-  for(int i = 0; i < 3; i++){
-    if((sensorEsq('V') == false) && (sensorEsq('V') == false)){
-      verdeEncontrado++;
-    }
-  }
-
-  if(verdeEncontrado > 1){
-    resposta = true;
-  } else {
-    resposta = false;
-  }
-  
-  return resposta;
-}
 
 boolean SensoresCor::sensorEsq(char entrada){
   boolean resposta = false;
-
+  
+  valorSensorCorHSVEsq = robo.getHSVEsquerdo();
   switch(entrada){
-    case 'V':
-      valorSensorCorHSVEsq = robo.getHSVEsquerdo(); 
-
+    case 'V': 
       if((valorSensorCorHSVEsq.h < divisorBrancoVerdeEsq.h)){
         if((valorSensorCorHSVEsq.v > divisorPretoVerdeEsq.v) && (valorSensorCorHSVEsq.v < divisorBrancoVerdeEsq.v)){
           resposta = true;
         }
-      }else{
-        resposta = false;
       }
       break;
-
     case 'B':
-      resposta = false;
       break;
-
     case 'P':
-      resposta = false;
       break;
-
   }
 
   delay(100);
@@ -136,30 +43,22 @@ boolean SensoresCor::sensorEsq(char entrada){
 
 boolean SensoresCor::sensorDir(char entrada){
   boolean resposta = false;
-
+  
+  valorSensorCorHSVDir = robo.getHSVDireito();
   switch(entrada){
-    case 'V':
-      valorSensorCorHSVDir = robo.getHSVDireito(); 
-
+    case 'V': 
       if((valorSensorCorHSVDir.h < divisorBrancoVerdeDir.h)){
         if((valorSensorCorHSVDir.v > divisorPretoVerdeDir.v) && (valorSensorCorHSVDir.v < divisorBrancoVerdeDir.v)){
           resposta = true;
         }
-      }else{
-        resposta = false;
       }
       break;
-
     case 'B':
-      resposta = false;
       break;
-
     case 'P':
-      resposta = false;
       break;
-
   }
-  
+
   delay(100);
   return resposta;
 }
@@ -200,6 +99,31 @@ void SensoresCor::printSensoresDeCorHSV(){
   Serial.print(F(", "));
   Serial.print(valorSensorCorHSVDir.v);
   Serial.println();  
+}
+
+void SensoresCor::testarVerde(){
+  int cont = 0;
+  
+  if(sensorEsq('V')){
+    Serial.println("Esquerdo: É Verde");
+    cont++;
+  } else {
+    Serial.println("Esquerdo: Não é Verde");
+  }
+  
+  if(sensorDir('V')){
+    Serial.println("Direito: É Verde");
+    cont++;
+  } else {
+    Serial.println("Direito: Não é Verde");
+  }
+
+  if(cont >= 2){
+    robo.ligarLed(3);
+  } else {
+    robo.desligarLed(3);
+  }
+  Serial.println("----------------------");
 }
 
 void SensoresCor::pegarDadosEEPROM(){
@@ -251,4 +175,3 @@ void SensoresCor::calcularDivisores(){
   divisorPretoBrancoEsq.v = (mediaPretoCorEsq.v + mediaBrancoCorEsq.v) / 2;
   divisorPretoBrancoDir.v = (mediaPretoCorDir.v + mediaBrancoCorDir.v) / 2; 
 }
-

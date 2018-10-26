@@ -35,9 +35,7 @@
 #ifndef TOY_H
 #define TOY_H
 
-#include <Arduino.h>
 #include <robo_hardware2.h>
-#include <Servo.h>
 
 class Toy{
   public:
