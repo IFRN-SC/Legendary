@@ -64,6 +64,7 @@ class Motores{
     void acaoRedutor();
     void pararAteBotao1();
     void testarMovimentacao();
+    void testar90Graus();
     void frear();
 
   private:

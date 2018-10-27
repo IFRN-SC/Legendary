@@ -37,8 +37,8 @@
 #define ESQ_NEGATIVO_GIRO_LEVE (DIR_NEGATIVO_GIRO_LEVE - DIFERENCA)
 
 //Valores dos Motores para Alinhamento
-#define DIR_POSITIVO_ALINHAMENTO 16
-#define DIR_NEGATIVO_ALINHAMENTO -16
+#define DIR_POSITIVO_ALINHAMENTO 18
+#define DIR_NEGATIVO_ALINHAMENTO -18
 #define ESQ_POSITIVO_ALINHAMENTO (DIR_POSITIVO_ALINHAMENTO + DIFERENCA)
 #define ESQ_NEGATIVO_ALINHAMENTO (DIR_NEGATIVO_ALINHAMENTO - DIFERENCA)
 
@@ -59,7 +59,7 @@
 #define ESQ_FREIO (DIR_FREIO - DIFERENCA)
 
 //Delays para Movimentos
-#define DELAY_90_GRAUS 260
+#define DELAY_90_GRAUS 285
 #define DELAY_MINI_FRENTE_CURVA 317
 #define DELAY_MINI_PARADA 300
 #define DELAY_MINI_GIRO 300
@@ -198,4 +198,9 @@ void Motores::testarMovimentacao(){
   delay(1000);
   parar();
   delay(1000);
+}
+
+void Motores::testar90Graus(){
+  miniParada();
+  girar90Esq();
 }

@@ -1,12 +1,9 @@
 #include "SensoresDistancia.h"
 
-#define DISTANCIA_OBSTACULO 14.0
+#define DISTANCIA_OBSTACULO 4.0
 #define DELAY_VERIFICACAO_OBSTACULO 1000
 
-#define DIFERENCA_PARA_CORTE 1
-
-#define CORTE_MAXIMA_PROXIMIDADE (DISTANCIA_OBSTACULO + DIFERENCA_PARA_CORTE)
-#define CORTE_MAXIMA_DISTANCIA (DISTANCIA_OBSTACULO - DIFERENCA_PARA_CORTE)
+#define CORTE_PROXIMIDADE 3.0
 
 #define DISTANCIA_RAMPA_ESQ 18.0
 #define DISTANCIA_RAMPA_DIR 15.0
@@ -15,13 +12,14 @@
 SensoresDistancia::SensoresDistancia(){}
 
 void SensoresDistancia::ajustarDistanciaObstaculo(){
-  motores.parar();  if(robo.lerSensorSonarFrontal() < CORTE_MAXIMA_PROXIMIDADE){
-    while(robo.lerSensorSonarFrontal() < CORTE_MAXIMA_PROXIMIDADE){
+  motores.parar();  
+  if(robo.lerSensorSonarFrontal() < CORTE_PROXIMIDADE){
+    while(robo.lerSensorSonarFrontal() < CORTE_PROXIMIDADE){
       motores.alinhamentoVoltar();
     }
   }
-  if(robo.lerSensorSonarFrontal() > CORTE_MAXIMA_DISTANCIA){
-    while(robo.lerSensorSonarFrontal() > CORTE_MAXIMA_DISTANCIA){
+  if(robo.lerSensorSonarFrontal() > CORTE_PROXIMIDADE){
+    while(robo.lerSensorSonarFrontal() > CORTE_PROXIMIDADE){
       motores.alinhamentoFrente();
     }
   }

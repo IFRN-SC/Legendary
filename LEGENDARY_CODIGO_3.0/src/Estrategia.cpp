@@ -21,12 +21,13 @@ void Estrategia::executar(){
 
   toy.desligarLeds();
   start();
-  //desviarObstaculo();
+  desviarObstaculo();
   if(distancia.isTheRampa()){
     seguirLinhaRampa();  
   } else {
     seguirLinha();
   }
+
 }
 
 void Estrategia::seguirLinha(){
@@ -150,40 +151,76 @@ boolean Estrategia::acaoVerde(){
 void Estrategia::desviarObstaculo(){
   if(distancia.isOnObstaculo()){
     delay(DELAY_PAUSA_MOVIMENTO);
-      motores.girar90Dir();
-      motores.parar();
-      delay(DELAY_PAUSA_MOVIMENTO);
+    //distancia.ajustarDistanciaObstaculo();
+    motores.voltar();
+    delay(80);
+    motores.miniParada();
+    alinharObstaculo();        
 
-      motores.frenteDevagar();
-      delay(DELAY_FRENTE1);
-      motores.parar();
-      delay(DELAY_PAUSA_MOVIMENTO);
-      
-      motores.girar90Esq();
-      motores.parar();
-      delay(DELAY_PAUSA_MOVIMENTO);
-      
-      motores.frenteDevagar();
-      delay(DELAY_FRENTE2);
-      motores.parar();
-      delay(DELAY_PAUSA_MOVIMENTO);
-      
-      motores.girar90Esq();
-      motores.parar();
-      delay(DELAY_PAUSA_MOVIMENTO);
-      
-      while(refletancia.bbbb()){
-        motores.frenteDevagar();
-      }
-      
-      while(!refletancia.bbbb()){
-        motores.frenteDevagar();
-      }
+    motores.miniParada();  
+    motores.miniParada();
+    motores.miniParada();
+    motores.miniParada();
+    motores.miniParada();
 
-      while(!refletancia.sensorDir('P')){
-        motores.girarDevagarDir();
-      }
+    while(robo.lerSensorSonarEsq() <= 6.0){
+      robo.acionarMotores(-30, -33);
+    }
+
+    while(robo.lerSensorSonarEsq() >= 6.0){
+      robo.acionarMotores(30, 33);
+    }
+
+    while(robo.lerSensorSonarEsq() <= 10.0){
+      robo.acionarMotores(30, 33);
+    }
+    delay(70);
+
+    motores.girar90Esq();
+
+    motores.pararAteBotao1();
+
+
+
+    motores.frenteDevagar();
+    delay(DELAY_FRENTE1);
+    motores.parar();
+    delay(DELAY_PAUSA_MOVIMENTO);
+      
+    motores.girar90Esq();
+    motores.parar();
+    delay(DELAY_PAUSA_MOVIMENTO);
+      
+    motores.frenteDevagar();
+    delay(DELAY_FRENTE2);
+    motores.parar();
+    delay(DELAY_PAUSA_MOVIMENTO);
+     
+    motores.girar90Esq();
+    motores.parar();
+    delay(DELAY_PAUSA_MOVIMENTO);
+      
+    while(refletancia.bbbb()){
+      motores.frenteDevagar();
+    }
+      
+    while(!refletancia.bbbb()){
+      motores.frenteDevagar();
+    }
+
+    while(!refletancia.sensorDir('P')){
+      motores.girarDevagarDir();
+    }
   }
+}
+
+void Estrategia::alinharObstaculo(){
+    motores.girar90Dir();
+    robo.acionarMotores(40, -40);
+    delay(70);
+    motores.miniParada();
+    motores.miniParada();
+    //refletancia.alinheComPPNN();
 }
 
 void Estrategia::seguirLinhaRampa(){
@@ -202,12 +239,6 @@ void Estrategia::seguirLinhaRampa(){
       delay(500);
     }
   }
-}
-
-void Estrategia::alinharObstaculo(){
-    refletancia.alinheComBBBB();
-    motores.girar90Dir();
-    refletancia.alinheComPPPP();
 }
 
 void Estrategia::start(){
