@@ -15,8 +15,8 @@
 #define ESQ_NEGATIVO_DEVAGAR (DIR_NEGATIVO_DEVAGAR - DIFERENCA)
 
 //Valores dos Motores para as Curvas
-#define DIR_POSITIVO_CURVA 32
-#define DIR_NEGATIVO_CURVA -32
+#define DIR_POSITIVO_CURVA 40
+#define DIR_NEGATIVO_CURVA -40
 #define ESQ_POSITIVO_CURVA (DIR_POSITIVO_CURVA + DIFERENCA)
 #define ESQ_NEGATIVO_CURVA (DIR_NEGATIVO_CURVA - DIFERENCA)
 //Frente Curva
@@ -144,12 +144,12 @@ void Motores::girarDirRampa(){ robo.acionarMotores(ESQ_POSITIVO_RAMPA, DIR_NEGAT
 //Movimentos de Freio
 void Motores::frear(){
   robo.acionarMotores(ESQ_NEGATIVO_FREIO, DIR_NEGATIVO_FREIO);
-  delay(50);
+  delay(70);
   robo.acionarMotores(0, 0);
 }
 void Motores::frearVoltar(){
   robo.acionarMotores(ESQ_POSITIVO_FREIO, DIR_POSITIVO_FREIO);
-  delay(50);
+  delay(90);
   robo.acionarMotores(0, 0);
 }
 void Motores::frearGiroEsq(){
@@ -164,12 +164,12 @@ void Motores::frearGiroDir(){
 }
 void Motores::frearVirarEsq(){
   robo.acionarMotores(ESQ_NEGATIVO_FREIO, 0);
-  delay(50);
+  delay(90);
   robo.acionarMotores(0, 0);
 }
 void Motores::frearVirarDir(){
   robo.acionarMotores(0, DIR_NEGATIVO_FREIO);
-  delay(50);
+  delay(90);
   robo.acionarMotores(0, 0);
 }
 void Motores::frearVoltarEsq(){

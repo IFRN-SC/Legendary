@@ -28,12 +28,6 @@ void Calibragem::iniciarCalibragem(){
   toy.ligarLed(2);
   calibracaoBrancoRefletanciaCor();
 
-  Serial.println(F("\nParte 3b: Coletar valores do Super Branco para os Sensores de Refletância no Redutor"));
-  Serial.println(F("Pressione o Botão 2 para Começar!"));
-  while(!robo.botao2Pressionado()){} //Espera Resposta do Botão 2
-  toy.ligarLed(2);
-  calibracaoSuperBrancoRefletancia();
-
   Serial.println(F("\nParte 4: Coletar valores do Verde para o Sensor de Cor Esquerdo"));
   Serial.println(F("Pressione o Botão 3 para Começar!"));
   while(!robo.botao3Pressionado()){} //Espera Resposta do Botão 3

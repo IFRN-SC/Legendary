@@ -1,6 +1,7 @@
 #include "MenuIniciar.h"
 
 #define DELAY_TEMPO_DE_TROCA_DOS_MOTORES 2000
+#define DUPLA_ESTRATEGIA true
 
 MenuIniciar::MenuIniciar(){
   //  
@@ -49,7 +50,11 @@ void MenuIniciar::menuBotoes(){
       opcaoSelecionada = true;
       toy.ligarApenasLed(3);
       delay(1000);
-      menuSerial(); 
+      if(DUPLA_ESTRATEGIA){
+        estrategia.seguirLinhaVerde();
+      } else {
+        menuSerial(); 
+      }
     }
   }
 }

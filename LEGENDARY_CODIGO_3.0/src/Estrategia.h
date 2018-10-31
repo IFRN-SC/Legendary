@@ -13,6 +13,7 @@ class Estrategia{
     Estrategia();
     int ultimoMovimentoRegistrado();
     void executar();
+    void seguirLinhaVerde();
 
   private:
     Toy toy;
