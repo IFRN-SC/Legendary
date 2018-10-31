@@ -51,11 +51,26 @@ class Motores{
     void girar90Esq();
     void girar90Dir();
 
+    //Movimentos para Desviar Obstaculo
+    void frenteDesviarObstaculo();
+    void voltarDesviarObstaculo();
+
     //Movimentos para a Rampa
     void frenteRampa();
+    void superFrenteRampa();
     void girarEsqRampa();
     void girarDirRampa();
     void pararRampa();
+
+    //Movimentos de Freio
+    void frear();
+    void frearVoltar();
+    void frearGiroEsq();
+    void frearGiroDir();
+    void frearVirarEsq();
+    void frearVirarDir();
+    void frearVoltarEsq();
+    void frearVoltarDir();
 
     //Movimentos Especificos
     void miniParada();
@@ -65,7 +80,6 @@ class Motores{
     void pararAteBotao1();
     void testarMovimentacao();
     void testar90Graus();
-    void frear();
 
   private:
     Toy toy;

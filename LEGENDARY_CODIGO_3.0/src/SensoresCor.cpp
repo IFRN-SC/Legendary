@@ -37,7 +37,7 @@ boolean SensoresCor::sensorEsq(char entrada){
       break;
   }
 
-  delay(100);
+  //delay(80);
   return resposta;
 }
 
@@ -59,7 +59,7 @@ boolean SensoresCor::sensorDir(char entrada){
       break;
   }
 
-  delay(100);
+  //delay(80);
   return resposta;
 }
 
@@ -105,17 +105,17 @@ void SensoresCor::testarVerde(){
   int cont = 0;
   
   if(sensorEsq('V')){
-    Serial.println("Esquerdo: É Verde");
+    Serial.println(F("Esquerdo: É Verde"));
     cont++;
   } else {
-    Serial.println("Esquerdo: Não é Verde");
+    Serial.println(F("Esquerdo: Não é Verde"));
   }
   
   if(sensorDir('V')){
-    Serial.println("Direito: É Verde");
+    Serial.println(F("Direito: É Verde"));
     cont++;
   } else {
-    Serial.println("Direito: Não é Verde");
+    Serial.println(F("Direito: Não é Verde"));
   }
 
   if(cont >= 2){
@@ -123,7 +123,22 @@ void SensoresCor::testarVerde(){
   } else {
     robo.desligarLed(3);
   }
-  Serial.println("----------------------");
+  Serial.println(F("----------------------"));
+}
+
+void SensoresCor::testarVerdeMultiplo(){
+  if(vv()){
+    Serial.println(F("Condição VV"));
+  } else if(vn()){
+    Serial.println(F("Condição VN"));
+  } else if(nv()){
+    Serial.println(F("Condição NV"));
+  } else if(nn()){
+    Serial.println(F("Condição NN"));
+  } else {
+    Serial.println(F("Condição Não Encontrada"));
+  }
+
 }
 
 void SensoresCor::pegarDadosEEPROM(){

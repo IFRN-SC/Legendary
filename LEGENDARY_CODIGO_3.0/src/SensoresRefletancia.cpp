@@ -27,14 +27,36 @@ void SensoresRefletancia::alinheComPPPP(){
 
 void SensoresRefletancia::alinheComPPNN(){
   boolean alinhamentoFinalizado = false;
+  boolean realizandoBPNN = false;
+  boolean realizandoPBNN = false;
+  
   while(alinhamentoFinalizado == false){
     if(bbbb()){
       motores.alinhamentoVoltar();
+
     } else if(sensorMaisEsq('P') && sensorEsq('B')){
-      motores.alinhamentoVoltarEsq();
+      realizandoBPNN = false;
+      realizandoPBNN = true;
+      robo.acionarMotores(18,-22);
+
     } else if(sensorMaisEsq('B') && sensorEsq('P')){
-      motores.miniFrenteCurva();
+        realizandoBPNN = true;
+        realizandoPBNN = false;
+        robo.acionarMotores(-26, 20);
+
     } else if(sensorMaisEsq('P') && sensorEsq('P')){
+      if(realizandoBPNN == true){
+        delay(130);
+        robo.acionarMotores(26, -20);
+        delay(80);
+        motores.parar();
+      } else if(realizandoPBNN == true){
+        delay(60);
+        robo.acionarMotores(-18,22);
+        delay(80);
+        motores.parar();
+      }
+      
       alinhamentoFinalizado = true;
       break;
     }
@@ -59,15 +81,21 @@ void SensoresRefletancia::alinheComNNPP(){
 
 void SensoresRefletancia::alinheComBBBB(){
   boolean alinhamentoFinalizado = false;
+  boolean realizandoBPBB = false;
+  boolean realizandoBBPB = false;
   while(alinhamentoFinalizado == false){
       if(bpbb()){
-          motores.voltarDevagarEsq();
+        motores.girarDevagarDir();
       } else if(bbpb()){
-          motores.voltarDevagarDir();
+        motores.girarDevagarEsq();
       } else if(bbbb()){
-          motores.voltarDevagarEsq();
-          alinhamentoFinalizado = true;
-          break;
+        if(realizandoBPBB){
+          motores.frearGiroDir();
+        } else if (realizandoBBPB){
+          motores.frearGiroEsq();
+        }  
+        alinhamentoFinalizado = true;
+        break;
       }
   }
 }

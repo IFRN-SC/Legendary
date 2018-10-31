@@ -14,8 +14,12 @@ class SensoresDistancia{
     boolean isTheRampa();
     void ajustarDistanciaObstaculo();
 
-    float getMediaSonarEsq();
-    float getMediaSonarDir();
+    double getMediaSonarEsq();
+    double getMediaSonarDir();
+    double getValorMaximoSonarEsq();
+    double getValorMaximoSonarDir();
+    double getValorMinimoSonarEsq();
+    double getValorMinimoSonarDir();
 
     void printSensoresDeDistancia();
 

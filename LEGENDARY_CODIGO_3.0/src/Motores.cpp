@@ -48,18 +48,26 @@
 #define ESQ_POSITIVO_90_GRAUS (DIR_POSITIVO_90_GRAUS + DIFERENCA)
 #define ESQ_NEGATIVO_90_GRAUS (DIR_NEGATIVO_90_GRAUS - DIFERENCA)
 
+//Valores dos Motores para desviar os Obstaculo
+#define DIR_POSITIVO_DESVIAR_OBSTACULO 30
+#define DIR_NEGATIVO_DESVIAR_OBSTACULO -30
+#define ESQ_POSITIVO_DESVIAR_OBSTACULO (DIR_POSITIVO_DESVIAR_OBSTACULO + (DIFERENCA - 2))
+#define ESQ_NEGATIVO_DESVIAR_OBSTACULO (DIR_POSITIVO_NEGATIVO_OBSTACULO - (DIFERENCA + 2))
+
 //Valores dos Motores para a rampa
 #define DIR_POSITIVO_RAMPA 50
-#define DIR_SUPER_POSITIVO_RAMPA 60
+#define DIR_NEGATIVO_RAMPA -20
 #define ESQ_POSITIVO_RAMPA (DIR_POSITIVO_RAMPA + DIFERENCA)
-#define ESQ_SUPER_POSITIVO_RAMPA (DIR_SUPER_POSITIVO_RAMPA + DIFERENCA)
+#define ESQ_NEGATIVO_RAMPA (DIR_NEGATIVO_RAMPA - DIFERENCA)
 
 //frear
-#define DIR_FREIO -20
-#define ESQ_FREIO (DIR_FREIO - DIFERENCA)
+#define DIR_POSITIVO_FREIO 20
+#define DIR_NEGATIVO_FREIO -20
+#define ESQ_POSITIVO_FREIO (DIR_POSITIVO_FREIO + DIFERENCA)
+#define ESQ_NEGATIVO_FREIO (DIR_NEGATIVO_FREIO - DIFERENCA)
 
 //Delays para Movimentos
-#define DELAY_90_GRAUS 285
+#define DELAY_90_GRAUS 356
 #define DELAY_MINI_FRENTE_CURVA 317
 #define DELAY_MINI_PARADA 300
 #define DELAY_MINI_GIRO 300
@@ -115,16 +123,65 @@ void Motores::alinhamentoVoltarDir(){robo.acionarMotores(0, DIR_NEGATIVO_ALINHAM
 void Motores::girar90Esq(){
   robo.acionarMotores(ESQ_NEGATIVO_90_GRAUS, DIR_POSITIVO_90_GRAUS);
   delay(DELAY_90_GRAUS);
+  frearGiroEsq();
 }
 void Motores::girar90Dir(){
   robo.acionarMotores(ESQ_POSITIVO_90_GRAUS, DIR_NEGATIVO_90_GRAUS);
   delay(DELAY_90_GRAUS);
+  frearGiroDir();
 }
+
+//Movimentos para Desviar o Obstaculo
+void Motores::frenteDesviarObstaculo(){ robo.acionarMotores(ESQ_POSITIVO_DESVIAR_OBSTACULO, DIR_POSITIVO_DESVIAR_OBSTACULO);}
 
 //Movimentos Para a Rampa
 void Motores::frenteRampa(){ robo.acionarMotores(ESQ_POSITIVO_RAMPA, DIR_POSITIVO_RAMPA);}
-void Motores::girarEsqRampa(){ robo.acionarMotores(-20, DIR_POSITIVO_RAMPA);}
-void Motores::girarDirRampa(){ robo.acionarMotores(ESQ_POSITIVO_RAMPA, -20);}
+void Motores::superFrenteRampa(){ robo.acionarMotores((ESQ_POSITIVO_RAMPA + 15), (DIR_POSITIVO_RAMPA + 15));}
+void Motores::girarEsqRampa(){ robo.acionarMotores(ESQ_NEGATIVO_RAMPA, DIR_POSITIVO_RAMPA);}
+void Motores::girarDirRampa(){ robo.acionarMotores(ESQ_POSITIVO_RAMPA, DIR_NEGATIVO_RAMPA);}
+
+
+//Movimentos de Freio
+void Motores::frear(){
+  robo.acionarMotores(ESQ_NEGATIVO_FREIO, DIR_NEGATIVO_FREIO);
+  delay(50);
+  robo.acionarMotores(0, 0);
+}
+void Motores::frearVoltar(){
+  robo.acionarMotores(ESQ_POSITIVO_FREIO, DIR_POSITIVO_FREIO);
+  delay(50);
+  robo.acionarMotores(0, 0);
+}
+void Motores::frearGiroEsq(){
+  robo.acionarMotores(ESQ_POSITIVO_FREIO, DIR_NEGATIVO_FREIO);
+  delay(90);
+  robo.acionarMotores(0, 0);
+}
+void Motores::frearGiroDir(){
+  robo.acionarMotores(ESQ_NEGATIVO_FREIO, DIR_POSITIVO_FREIO);
+  delay(90);
+  robo.acionarMotores(0, 0);
+}
+void Motores::frearVirarEsq(){
+  robo.acionarMotores(ESQ_NEGATIVO_FREIO, 0);
+  delay(50);
+  robo.acionarMotores(0, 0);
+}
+void Motores::frearVirarDir(){
+  robo.acionarMotores(0, DIR_NEGATIVO_FREIO);
+  delay(50);
+  robo.acionarMotores(0, 0);
+}
+void Motores::frearVoltarEsq(){
+  robo.acionarMotores(ESQ_POSITIVO_FREIO, 0);
+  delay(90);
+  robo.acionarMotores(0, 0);
+}
+void Motores::frearVoltarDir(){
+  robo.acionarMotores(0, DIR_POSITIVO_FREIO);
+  delay(90);
+  robo.acionarMotores(0, 0);
+}
 
 
 //Movimentos Especificos
@@ -142,7 +199,6 @@ void Motores::miniGiroDir(){
   delay(DELAY_MINI_GIRO);
   miniParada();
 }
-
 void Motores::acaoRedutor(){
   frear();
   miniParada();
@@ -152,17 +208,10 @@ void Motores::acaoRedutor(){
   robo.acionarMotores(70, 70);
   delay(430);
 }
-
 void Motores::pararAteBotao1(){
   parar();
   while(!robo.botao1Pressionado()){}
   toy.ledsAlerta(3);
-}
-
-void Motores::frear(){
-  robo.acionarMotores(ESQ_FREIO, DIR_FREIO);
-  delay(50);
-  robo.acionarMotores(0, 0);
 }
 
 void Motores::testarMovimentacao(){
@@ -199,7 +248,6 @@ void Motores::testarMovimentacao(){
   parar();
   delay(1000);
 }
-
 void Motores::testar90Graus(){
   miniParada();
   girar90Esq();

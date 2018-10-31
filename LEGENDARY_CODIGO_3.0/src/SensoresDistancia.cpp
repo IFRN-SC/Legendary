@@ -1,12 +1,12 @@
 #include "SensoresDistancia.h"
 
-#define DISTANCIA_OBSTACULO 4.0
+#define DISTANCIA_OBSTACULO 4.20
 #define DELAY_VERIFICACAO_OBSTACULO 1000
 
 #define CORTE_PROXIMIDADE 3.0
 
 #define DISTANCIA_RAMPA_ESQ 18.0
-#define DISTANCIA_RAMPA_DIR 15.0
+#define DISTANCIA_RAMPA_DIR 18.0
 
 
 SensoresDistancia::SensoresDistancia(){}
@@ -41,8 +41,8 @@ boolean SensoresDistancia::isOnObstaculo(){
 
 boolean SensoresDistancia::isTheRampa(){ return (robo.lerSensorSonarEsq() <= DISTANCIA_RAMPA_ESQ && robo.lerSensorSonarDir() <= DISTANCIA_RAMPA_DIR); }
 
-float SensoresDistancia::getMediaSonarEsq(){
-  float mediaSonar = robo.lerSensorSonarEsq();
+double SensoresDistancia::getMediaSonarEsq(){
+  double mediaSonar = robo.lerSensorSonarEsq();
   for(int i = 1; i <= 10; i++){ 
     mediaSonar += robo.lerSensorSonarEsq();
     mediaSonar /= 2;
@@ -51,14 +51,71 @@ float SensoresDistancia::getMediaSonarEsq(){
   return mediaSonar;
 }
 
-float SensoresDistancia::getMediaSonarDir(){
-  float mediaSonar = robo.lerSensorSonarDir();
+double SensoresDistancia::getMediaSonarDir(){
+  double mediaSonar = robo.lerSensorSonarDir();
   for(int i = 1; i <= 10; i++){ 
     mediaSonar += robo.lerSensorSonarDir();
     mediaSonar /= 2;
     delay(10);
   }
   return mediaSonar;
+}
+
+double SensoresDistancia::getValorMaximoSonarEsq(){
+  motores.parar();
+  double aux;
+  double valorMaximo = robo.lerSensorSonarEsq();
+  delay(10);
+  for(int i = 1; i <= 10; i++){
+    aux = robo.lerSensorSonarEsq();
+    if(aux > valorMaximo){
+      valorMaximo = aux;
+    }
+    delay(20);
+  }
+  return valorMaximo;
+}
+
+double SensoresDistancia::getValorMaximoSonarDir(){
+  motores.parar();
+  double valorMaximo = robo.lerSensorSonarDir();
+  delay(10);
+  for(int i = 1; i <= 10; i++){
+    double aux = robo.lerSensorSonarDir();
+    if(aux > valorMaximo){
+      valorMaximo = aux;
+    }
+    delay(10);
+  }
+  return valorMaximo;
+}
+
+double SensoresDistancia::getValorMinimoSonarEsq(){
+  motores.parar();
+  double valorMinimo = robo.lerSensorSonarEsq();
+  delay(10);
+  for(int i = 1; i <= 10; i++){
+    double aux = robo.lerSensorSonarEsq();
+    if(aux < valorMinimo){
+      valorMinimo = aux;
+    }
+    delay(10);
+  }
+  return valorMinimo;
+}
+
+double SensoresDistancia::getValorMinimoSonarDir(){
+  motores.parar();
+  double valorMinimo = robo.lerSensorSonarDir();
+  delay(10);
+  for(int i = 1; i <= 10; i++){
+    double aux = robo.lerSensorSonarDir();
+    if(aux < valorMinimo){
+      valorMinimo = aux;
+    }
+    delay(10);
+  }
+  return valorMinimo;
 }
 
 void SensoresDistancia::printSensoresDeDistancia(){
@@ -74,5 +131,3 @@ void SensoresDistancia::printSensoresDeDistancia(){
   Serial.print(F("  Direito: "));
   Serial.println(valorLido);
 }
-
-

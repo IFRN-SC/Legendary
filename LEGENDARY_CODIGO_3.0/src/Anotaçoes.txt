@@ -1,0 +1,15 @@
+Criado metodos getValorMaximoSensorEsq(), getValorMaximoSensorDir(), 
+getValorMinimoSensorEsq() e getValorMinimoSensorDir() para usar na estrategia de desviar Obstaculos
+
+Novos movimentos para desviar o obstaculo criados. (TESTADOS)
+
+Otimizado os Movimentos de 90 Graus. (TESTADOS)
+
+Criação mais Movimentos de Freio para Voltar, Girar, Virar e voltar.
+
+Modificação no Seguir Linha Rampa. (NÂO TESTADOS)
+
+Modificação no alinharComBBBB. (NÂO TESTADO)
+
+Delay 90 Graus Descarregado: 350
+Delay 90 Graus Carregado: 

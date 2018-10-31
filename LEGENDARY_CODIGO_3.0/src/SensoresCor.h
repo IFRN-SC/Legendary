@@ -17,6 +17,7 @@ class SensoresCor{
     boolean nn();
 
     void testarVerde();
+    void testarVerdeMultiplo();
     void printSensoresDeCorRGB();
     void printSensoresDeCorHSV(); 
   

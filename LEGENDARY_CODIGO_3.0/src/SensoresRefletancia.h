@@ -58,10 +58,10 @@ class SensoresRefletancia{
     //double corteRedutorDir;
     //double corteRedutorMaisDir;
 
-    float corteRedutorMaisEsq = 100;
-    float corteRedutorEsq = 100;
-    float corteRedutorDir = 100;
-    float corteRedutorMaisDir = 100;
+    double corteRedutorMaisEsq = 101;
+    double corteRedutorEsq = 101;
+    double corteRedutorDir = 101;
+    double corteRedutorMaisDir = 101;
 };
 
 #endif
