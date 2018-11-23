@@ -45,46 +45,22 @@ void Estrategia::seguirLinha(){
   } else if(refletancia.bpbb()) {
     setEsquerda();
     motores.giroLeveEsq();
-  
-  } else if(refletancia.sensorEsq('P') && refletancia.sensorDir('P')){
-    robo.ligarLed(3);
-    /*
-    if(ultimoMovimentoRegistrado() == -1){ //Esquerda
-      motores.frearGiroEsq();
-      delay(300);
-      motores.miniFrenteCurva();
-      while(refletancia.sensorMaisEsq('B')){
-        motores.girarDevagarEsq();
-      }
-      while(refletancia.sensorEsq('B')){
-        motores.girarDevagarEsq();
-      }
-      motores.pararAteBotao1();
-    } else if(ultimoMovimentoRegistrado() == 0){ //Frente
-      motores.frente();
-    } else if(ultimoMovimentoRegistrado() == 1){ //Direita
-      motores.miniGiroDir();
-    }
-    */
-
+   
   //Tem em Baixo
   } else if(refletancia.bbpp() || refletancia.bppp()) {
     setDireita();
     motores.frear();
     motores.miniParada();
     int i = 0;
-    boolean acaoNaoTerminada = false;
     
     if(!refletancia.bbpp() || !refletancia.bppp()){
       i = 0;
-      while(refletancia.sensorDir('B') || refletancia.sensorMaisDir('B')){
+      while(refletancia.sensorDir('B') && refletancia.sensorMaisDir('B')){
         i++;
-        if(i >= 6000){
-          acaoNaoTerminada = true;
-          break;
-        }
+        if(i >= 6000){ break;}
         motores.voltarCurva();
       }
+      motores.frearVoltar();
     }
     motores.miniParada();
   
@@ -94,40 +70,32 @@ void Estrategia::seguirLinha(){
     i = 0;
     while(!refletancia.sensorEsq('P')){ 
       i++;
-      if(i >= 10000){
-        acaoNaoTerminada = true;
-        break;
-      }
+      if(i >= 10000){ break;}
       motores.giroCurvaDir(); 
     }
     i = 0;
     while(refletancia.sensorEsq('P')){ 
       i++;
-      if(i >= 10000){
-        acaoNaoTerminada = true;
-        break;
-      }
+      if(i >= 10000){ break;}
       motores.giroLeveEsq(); 
     }
-
+    motores.frearGiroEsq();
+  
   //Tem em Cima
   } else if(refletancia.ppbb() || refletancia.pppb()) {
     setEsquerda();
     motores.frear();
     motores.miniParada();
     int i = 0;
-    boolean acaoNaoTerminada = false;
     
     if(!refletancia.ppbb() || !refletancia.pppb()){
       i = 0;
-      while(refletancia.sensorMaisEsq('B') || refletancia.sensorEsq('B')){
+      while(refletancia.sensorMaisEsq('B') && refletancia.sensorEsq('B')){
         i++;
-        if(i >= 6000){
-          acaoNaoTerminada = true;
-          break;
-        }
+        if(i >= 6000){ break;}
         motores.voltarCurva();
       }
+      motores.frearVoltar();
     }
     motores.miniParada();
     
@@ -137,22 +105,17 @@ void Estrategia::seguirLinha(){
     i = 0;
     while(!refletancia.sensorDir('P')){ 
       i++;
-      if(i >= 10000){
-        acaoNaoTerminada = true;
-        break;
-      }
+      if(i >= 10000){ break;}
       motores.giroCurvaEsq(); 
     }
 
     i = 0;
     while(refletancia.sensorDir('P')){ 
       i++;
-      if(i >= 10000){
-        acaoNaoTerminada = true;
-        break;
-      }
+      if(i >= 10000){ break;}
       motores.giroLeveDir(); 
     }
+    motores.frearGiroDir();
 
   }else if(refletancia.bbbp()){
     setDireita();
@@ -506,9 +469,18 @@ void Estrategia::desviarObstaculo(){
 
 void Estrategia::seguirLinhaRampa(){
   if(distancia.isTheRampa()){
+    int i = 0;
     if(refletancia.bbbb()){
       while(refletancia.bbbb()){
+        i++;
         motores.frenteRampa();
+        if(i >= 20000){
+          robo.acionarMotores(20,20);
+          delay(700);
+          robo.acionarMotores(75,75);
+          delay(1000);
+          break;  
+        }
       }
     } else if(refletancia.bpbb() || refletancia.pbbb()){
       motores.girarEsqRampa();

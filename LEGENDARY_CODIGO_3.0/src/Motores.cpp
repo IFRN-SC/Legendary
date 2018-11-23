@@ -3,8 +3,8 @@
 #define DIFERENCA 3 //Diferença de Nivel entre Motores Esquerdo e Direito
 
 //Valores dos Motores Normais
-#define DIR_POSITIVO 48
-#define DIR_NEGATIVO -48
+#define DIR_POSITIVO 50
+#define DIR_NEGATIVO -50
 #define ESQ_POSITIVO (DIR_POSITIVO + DIFERENCA)
 #define ESQ_NEGATIVO (DIR_NEGATIVO - DIFERENCA)
 
@@ -31,8 +31,8 @@
 #define ESQ_NEGATIVO_VOLTAR_CURVA (DIR_NEGATIVO_VOLTAR_CURVA - DIFERENCA)
 
 //Valores dos Motores para Movimentos Leves para voltar a linha
-#define DIR_POSITIVO_GIRO_LEVE 28
-#define DIR_NEGATIVO_GIRO_LEVE -28
+#define DIR_POSITIVO_GIRO_LEVE 30
+#define DIR_NEGATIVO_GIRO_LEVE -30
 #define ESQ_POSITIVO_GIRO_LEVE (DIR_POSITIVO_GIRO_LEVE + DIFERENCA)
 #define ESQ_NEGATIVO_GIRO_LEVE (DIR_NEGATIVO_GIRO_LEVE - DIFERENCA)
 
@@ -56,7 +56,7 @@
 
 //Valores dos Motores para a rampa
 #define DIR_POSITIVO_RAMPA 50
-#define DIR_NEGATIVO_RAMPA -20
+#define DIR_NEGATIVO_RAMPA 20
 #define ESQ_POSITIVO_RAMPA (DIR_POSITIVO_RAMPA + DIFERENCA)
 #define ESQ_NEGATIVO_RAMPA (DIR_NEGATIVO_RAMPA - DIFERENCA)
 
@@ -144,7 +144,7 @@ void Motores::girarDirRampa(){ robo.acionarMotores(ESQ_POSITIVO_RAMPA, DIR_NEGAT
 //Movimentos de Freio
 void Motores::frear(){
   robo.acionarMotores(ESQ_NEGATIVO_FREIO, DIR_NEGATIVO_FREIO);
-  delay(70);
+  delay(90);
   robo.acionarMotores(0, 0);
 }
 void Motores::frearVoltar(){

@@ -10,6 +10,8 @@ class SensoresCor{
 
     boolean sensorEsq(char);
     boolean sensorDir(char);
+   
+    String estadoSensores();
 
     boolean vv();
     boolean vn();
